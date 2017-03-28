@@ -1,0 +1,13 @@
+{
+    "presets": [        
+        "es2015","stage-3", "react"
+    ],
+    "plugins": [
+        "transform-runtime",        
+        "transform-function-bind",
+        "transform-class-properties",
+        "transform-object-rest-spread",
+        "transform-async-to-generator",
+        "transform-async-generator-functions"
+    ]
+}

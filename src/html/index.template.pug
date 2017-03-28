@@ -1,0 +1,17 @@
+- var devMode = self.htmlWebpackPlugin.options.data.DEV_MODE
+- function date_now_format() { var date = new Date(); return date.getFullYear() + "_" + ( date.getMonth() + 1 ) + "_" + date.getDate() + "_" + date.getHours() + "_" + date.getMinutes() + "_" + date.getSeconds();     }
+- var time = date_now_format();
+- var min = devMode ? "" : ".min"
+doctype
+html
+    head
+        meta(charset='UTF-8')
+        title ReactJS
+        link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css')
+    body
+        #app
+            <!-- #{time} -->
+        //- script(src=`//cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react${min}.js`)
+        //- script(src=`//cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom${min}.js`)
+        //- script(src=`//cdnjs.cloudflare.com/ajax/libs/react-router/4.0.0-beta.7/react-router${min}.js`)
+
