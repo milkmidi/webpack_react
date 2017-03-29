@@ -1,24 +1,23 @@
+/*eslint-disable */
 import React from 'react';
 import { render } from 'react-dom';
-
 import {
     HashRouter as Router,
     Route,
     Link,
 } from 'react-router-dom';
+/*eslint-enable */
 
 
 import App from './component/App.jsx';
 import Child from './component/Child.jsx';
-import Navigation from './component/Navigation.jsx';
-
+import Navigation from './component/Navigation.jsx';// eslint-disable-line
 
 import '../css/app.styl';
 
-
 const About = () => (
     <div>
-        <h2>About</h2>
+        <h2>About1234d5</h2>
     </div>
 );
 

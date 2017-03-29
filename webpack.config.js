@@ -3,7 +3,8 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const DEV_MODE = process.env.NODE_ENV === 'development';
-console.log(process.env.NODE_ENV);
+console.log(`DEV_MODE:${DEV_MODE}`);
+
 const config = {
     context: path.resolve('src'),
     entry: {
@@ -19,7 +20,7 @@ const config = {
     resolve: {
         modules: [
             path.resolve('src/html'),
-            path.resolve('src/ts'),
+            path.resolve('src/js'),
             path.resolve('node_modules'),
         ],
         extensions: ['.js', '.jsx'],
@@ -110,11 +111,11 @@ const config = {
             }),
         ],
     ],
-    externals: {
-    /*    "react"         : "React",
-        "react-dom"     : "ReactDOM",
-        "react-router"  : "ReactRouter",*/
-    },
+    /*externals: {
+        react: 'React',
+        'react-dom': 'ReactDOM',
+        'react-router': 'ReactRouter',
+    },*/
 };
 
 module.exports = config;
