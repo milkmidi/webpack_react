@@ -1,5 +1,7 @@
 import React from 'react';
-import Child from './Child.jsx';
+import PropTypes from 'prop-types';
+
+// import Child from './Child.jsx';
 
 class Greeting extends React.Component {
     render() {
@@ -11,10 +13,10 @@ class Greeting extends React.Component {
     }
 }
 Greeting.propTypes = {
-    name: React.PropTypes.string,
+    name: PropTypes.string,
 };
 
-export default class App extends React.Component {
+export default class Index extends React.Component {
     timerID = -1;
     constructor(props) {
         super(props);
@@ -61,7 +63,7 @@ export default class App extends React.Component {
             <p>{this.state.value}</p>
             <button onClick={this.loginHandler}>{this.state.isLoggedIn ? 'logout' : 'login'}</button>
             <Greeting name="milkmidi" />
-            <Child name={this.state.value} />
+            {/* <Child name={this.state.value} />*/}
         </div>;
     }
 }

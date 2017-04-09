@@ -8,7 +8,7 @@ console.log(`DEV_MODE:${DEV_MODE}`);
 const config = {
     context: path.resolve('src'),
     entry: {
-        app: ['./js/index.jsx'],
+        app: ['./js/app.jsx'],
         vendor: ['react', 'react-dom', 'react-router'],
     },
     output: {

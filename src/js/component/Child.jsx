@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './child.styl';
 
@@ -24,5 +25,5 @@ export default class Child extends React.Component {
     }
 }
 Child.propTypes = {
-    name: React.PropTypes.string,
+    name: PropTypes.string,
 };
