@@ -46,14 +46,9 @@ const App = () => (
 
 render(<App/>, document.getElementById('app'));
 
-
-/* ReactDOM.render(
-  <App name="milkmidi"/>,
-  document.getElementById("app")
-);*/
-console.log('__DEV__', __DEV__);
+// console.log('__DEV__', __DEV__);
 try {
-    module.hot.accept();
+  module.hot.accept();
 } catch (error) {
 
 }
