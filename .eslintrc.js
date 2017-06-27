@@ -11,7 +11,10 @@ module.exports = {
   env: {
     browser: true,
   },
-  extends: 'airbnb-base',
+  extends: ['airbnb-base', "plugin:react/recommended"],
+  plugins: [
+    'react',
+  ],
   globals: {
     /*"Vue": true,
     "$": true,

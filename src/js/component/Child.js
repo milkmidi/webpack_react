@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { Component, PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import './child.styl';
 
-export default class Child extends React.Component {
+export default class Child extends Component {
   constructor(prop) {
     super(prop);
     this.state = {
@@ -11,10 +11,11 @@ export default class Child extends React.Component {
     };
   }
   clickHandler = () => {
-    console.log('click');
-    this.setState({ count: this.state.count + 1 });
+    this.setState({ count: 3 });
+    // this.setState({ count: this.state.count + 1 });
   }
   render() {
+    console.log('render');
     return (
       <div className="child_root">
           <h1>Hello Child, {this.props.name}</h1>

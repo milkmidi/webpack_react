@@ -1,18 +1,16 @@
-/*eslint-disable */
 import React from 'react';
 import { render } from 'react-dom';
 import {
-    HashRouter as Router,
-    // BrowserRouter as Router,
+    // HashRouter as Router,
+    BrowserRouter as Router,
     Route,
     Link,
 } from 'react-router-dom';
-/*eslint-enable */
 
 
-import Index from './component/Index.jsx';
-import Child from './component/Child.jsx';
-import Navigation from './component/Navigation.jsx';// eslint-disable-line
+import Main from './component/Main';
+import Child from './component/Child';
+import Navigation from './component/Navigation';
 
 import '../css/app.styl';
 
@@ -37,7 +35,7 @@ const App = () => (
   <Router>
     <div className="wrap">
       <Navigation />
-      <Route exact path="/" component={Index}/>
+      <Route exact path="/" component={Main}/>
       <Route path="/about" component={About}/>
       <Route path="/Child" component={Child}/>
     </div>
@@ -46,9 +44,7 @@ const App = () => (
 
 render(<App/>, document.getElementById('app'));
 
-// console.log('__DEV__', __DEV__);
-try {
+if (module && module.hot) {
   module.hot.accept();
-} catch (error) {
-
 }
+

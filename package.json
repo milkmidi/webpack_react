@@ -4,14 +4,14 @@
   "license": "ISC",
   "name": "typescript-react-webpack",
   "scripts": {
-    "dev": "webpack-dev-server --devtool eval --progress --colors --hot --content-base dist --port=3000",
-    "build": "webpack -p"
+    "start": "node_modules/.bin/webpack-dev-server --devtool eval --progress --colors --hot --content-base dist --port=3000",
+    "p": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --progress -p"
   },
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",
-    "babel-core": "^6.22.1",
-    "babel-eslint": "^7.2.1",
-    "babel-loader": "^6.2.10",
+    "babel-core": "^6.25.0",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.1.0",
     "babel-plugin-transform-async-generator-functions": "^6.22.0",
     "babel-plugin-transform-async-to-generator": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.22.0",
@@ -22,11 +22,11 @@
     "babel-preset-stage-3": "^6.22.0",
     "css-loader": "^0.23.1",
     "eslint": "^3.18.0",
-    "eslint-config-airbnb-base": "^11.1.1",
-    "eslint-import-resolver-webpack": "^0.8.1",
-    "eslint-plugin-html": "^2.0.1",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-react": "^6.10.3",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-import-resolver-webpack": "^0.8.3",
+    "eslint-plugin-html": "^3.0.0",
+    "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-react": "^7.1.0",
     "file-loader": "^0.9.0",
     "gulp": "^3.9.1",
     "gulp-util": "^3.0.7",
@@ -39,14 +39,14 @@
     "run-sequence": "^1.2.2",
     "style-loader": "^0.13.1",
     "stylus": "^0.54.5",
-    "stylus-loader": "^2.5.0",
-    "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.3.0"
+    "stylus-loader": "^3.0.1",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.5.0"
   },
   "dependencies": {
     "prop-types": "^15.5.4",
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "rimraf": "^2.6.1"
   }
 }

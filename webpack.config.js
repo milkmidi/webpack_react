@@ -8,7 +8,7 @@ console.log(`DEV_MODE:${DEV_MODE}`);
 const config = {
   context: path.resolve('src'),
   entry: {
-    app: ['./js/app.jsx'],
+    app: ['./js/app.js'],
     vendor: ['react', 'react-dom', 'react-router'],
   },
   output: {
@@ -26,39 +26,32 @@ const config = {
     extensions: ['.js', '.jsx'],
   },
   resolveLoader: {
-    moduleExtensions: ['-loader'],
   },
 
   devServer: {    // https://webpack.js.org/configuration/dev-server/#devserver
-    hot: true,
-    stats: {    // https://webpack.js.org/configuration/stats/
-      colors: true,
-      hash: false,
-      version: false,
-      timings: true,
-      assets: true,
+    contentBase: 'dist',
+    historyApiFallback: true,
+    port: 8080,
+    stats: {
       chunks: false,
-      chunkModules: false,
-      modules: false,
-      cached: false,
-      reasons: false,
-      source: true,
-      error: true,
-      errorDetails: true,
-      chunkOrigins: false,
     },
+    hot: true,
   },
   module: {
     rules: [
       {
         test: /.jsx?$/,
-        loader: 'babel',
+        use: 'babel-loader',
         include: path.resolve('src'),
         exclude: /node_modules/,
       },
       {
         test: /\.styl$/,
-        loader: 'style!css!stylus',
+        use: [
+          'style-loader',
+          'css-loader',
+          'stylus-loader',
+        ],
         include: [
           path.resolve('src/css'),
           path.resolve('src'),
@@ -67,15 +60,19 @@ const config = {
       },
       {
         test: /\.(png|jpg)$/,
-        loader: 'url?limit=1024',
+        use: {
+          loader: 'url-loader?limit=1024',
+        },
         exclude: /node_modules/,
       },
       {
         test: /\.pug$/,
-        loader: 'pug',
-        options: {
-          self: true,
-          pretty: DEV_MODE,
+        use: {
+          loader: 'pug-loader',
+          options: {
+            self: true,
+            pretty: DEV_MODE,
+          },
         },
       },
     ],
@@ -93,29 +90,9 @@ const config = {
       },
     }),
     new webpack.DefinePlugin({
-      // __DEV__: DEV_MODE,
       'process.env.NODE_ENV': DEV_MODE ? "'development'" : '"production"',
     }),
-    ...DEV_MODE ? [
-      // new webpack.HotModuleReplacementPlugin(),
-    ] : [
-      new webpack.LoaderOptionsPlugin({
-        minimize: true,
-        debug: false,
-      }),
-      new webpack.optimize.UglifyJsPlugin({
-        sourceMap: true,
-        compress: {
-          warnings: false,
-        },
-      }),
-    ],
   ],
-    /*externals: {
-        react: 'React',
-        'react-dom': 'ReactDOM',
-        'react-router': 'ReactRouter',
-    },*/
 };
 
 module.exports = config;
