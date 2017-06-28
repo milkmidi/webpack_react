@@ -5,6 +5,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DEV_MODE = process.env.NODE_ENV === 'development';
 console.log(`DEV_MODE:${DEV_MODE}`);
 
+import prerender from './prerender';
+
+console.log(prerender());
+
 const config = {
   context: path.resolve('src'),
   entry: {

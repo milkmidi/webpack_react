@@ -7,7 +7,7 @@ import {
     NavLink,
     Link,
 } from 'react-router-dom';
-import navigation from './navigation.styl';
+// import navigation from './navigation.styl';
 /*eslint-enable */
 /* export default class Navigation extends React.Component {
 

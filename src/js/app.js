@@ -1,5 +1,6 @@
 import React from 'react';
-import { render } from 'react-dom';
+// import { render } from 'react-dom';
+import { render } from 'react-snapshot';
 import {
     // HashRouter as Router,
     BrowserRouter as Router,
@@ -12,7 +13,7 @@ import Main from './component/Main';
 import Child from './component/Child';
 import Navigation from './component/Navigation';
 
-import '../css/app.styl';
+// import '../css/app.styl';
 
 const AboutRendering = ({ match }) => (
   <div>
@@ -42,9 +43,10 @@ const App = () => (
   </Router>
 );
 
-render(<App/>, document.getElementById('app'));
+module.exports = App;
+/* render(<App/>, document.getElementById('root'));
 
 if (module && module.hot) {
   module.hot.accept();
-}
+}*/
 
