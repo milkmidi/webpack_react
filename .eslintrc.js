@@ -45,6 +45,7 @@ module.exports = {
       js: 'never',
       vue: 'never',
     }],
+    "import/no-extraneous-dependencies","off",
     "no-console": "off",
     // "indent": ["error", 4],        
     // 'global-require':'off',

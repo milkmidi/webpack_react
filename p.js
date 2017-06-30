@@ -1,2 +1,2 @@
 require('babel-register');
-require('./prerender.js');
+require('./server.js');
