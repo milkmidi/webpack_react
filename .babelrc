@@ -1,9 +1,12 @@
 {
-  "presets": [        
-    "env","es2015","stage-3", "react"
+  "presets": [
+    "env",
+    "es2015",
+    "stage-3",
+    "react"
   ],
   "plugins": [
-    "transform-runtime",        
+    "transform-runtime",
     "transform-function-bind",
     "transform-class-properties",
     "transform-object-rest-spread",

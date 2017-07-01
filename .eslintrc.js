@@ -23,10 +23,8 @@ module.exports = {
     'FB': true,*/
   },
 
-  // 才能 lint .vue 檔
   plugins: [
     'react',
-    // 'html',
   ],
 
   // eslint-plugin-import 會用 webpack 的 resolve modules 設定
@@ -40,15 +38,9 @@ module.exports = {
 
   // 自訂規則
   rules: {
-    // import 的時候不用寫 .js 跟 .vue
-    'import/extensions': ['error', 'always', {
+    /*'import/extensions': ['error', 'always', {
       js: 'never',
-      vue: 'never',
-    }],
-    "import/no-extraneous-dependencies","off",
-    "no-console": "off",
-    // "indent": ["error", 4],        
-    // 'global-require':'off',
-    // 'import/prefer-default-export':'off',
+    }],*/
+    "import/no-extraneous-dependencies":"off",
   },
 };

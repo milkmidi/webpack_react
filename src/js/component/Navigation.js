@@ -1,11 +1,7 @@
-/*eslint-disable */
 import React from 'react';
 import {
-    // HashRouter as Router,
-    Router,
-    Route,
-    NavLink,
-    Link,
+  Route,
+  NavLink,
 } from 'react-router-dom';
 
 const Navigation = () => (

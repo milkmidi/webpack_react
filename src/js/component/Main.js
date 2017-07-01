@@ -25,14 +25,11 @@ export default class Main extends Component {
   stopTimer = () => {
     clearInterval(this.timerID);
     this.timerID = -1;
-    console.log('stopTimer');
   }
   componentDidMount() {
-    console.log('App componentDidMount');
     this.timerID = setInterval(() => this.tick(), 1000);
   }
   componentWillUnmount() {
-    console.log('componentWillUnmount');
     clearInterval(this.timerID);
   }
   render() {
@@ -43,7 +40,7 @@ export default class Main extends Component {
         <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
         <label>
             Name:
-            <input type="text" value={this.state.value} onChange={this.handleChange} />
+          <input type="text" value={this.state.value} onChange={this.handleChange} />
         </label>
         <p>{this.state.value}</p>
         <button onClick={this.loginHandler}>{this.state.isLoggedIn ? 'logout' : 'login'}</button>

@@ -1,9 +1,8 @@
 import React from 'react';
 import {
-   BrowserRouter as Router,
-   Route,
+  BrowserRouter as Router,
+  Route,
 } from 'react-router-dom';
-
 
 import Main from './Main';
 import Child from './Child';
@@ -17,7 +16,7 @@ const About = () => (
 );
 
 
-const App = ()=> (
+const App = () => (
   <Router>
     <main>
       <Navigation />

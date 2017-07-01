@@ -14,27 +14,28 @@ const config = {
   },
   output: {
     filename: 'asset/js/[name].js?[hash]',
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, './build'),
     publicPath: '',
   },
-    // devtool: "source-map",
+  // devtool: "source-map",
   resolve: {
     modules: [
       path.resolve('src/html'),
       path.resolve('src/js'),
       path.resolve('node_modules'),
     ],
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js'],
   },
   resolveLoader: {
   },
 
-  devServer: {    // https://webpack.js.org/configuration/dev-server/#devserver
-    contentBase: 'dist',
+  devServer: {
+    contentBase: 'build',
     historyApiFallback: true,
     port: 8080,
     stats: {
       chunks: false,
+      colors: true,
     },
     hot: true,
   },
