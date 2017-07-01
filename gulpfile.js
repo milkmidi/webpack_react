@@ -1,5 +1,4 @@
-/* eslint global-require:off */
-/* eslint no-restricted-syntax: ["error", "FunctionExpression", "WithStatement", "BinaryExpression[operator='in']"] */
+/* eslint global-require:off, no-console:off */
 const gulp = require('gulp');
 const runSequence = require('run-sequence');
 const webpack = require('webpack');
@@ -16,20 +15,23 @@ gulp.task('m', () => {
 });
 
 gulp.task('webpack-dev-server', (cb) => {
+  process.env.NODE_ENV = 'development';
+
   const host = 'localhost';
   const port = 3000;
   const URI = `http://${host}:${port}/`;
-  process.env.NODE_ENV = 'development';
 
-  const config = require('./webpack.config.js');  // eslint disable-line
+  const config = require('./webpack.config.js');
 
   config.devtool = 'inline-source-map';
 
-  for (const a in config.entry) {
-    if (a !== 'vendor') {
-      config.entry[a].unshift(`webpack-dev-server/client?${URI}`, 'webpack/hot/dev-server');
+  const { entry } = config;
+  Object.keys(entry).forEach((key) => {
+    if (key !== 'vendor') {
+      entry[key].unshift(`webpack-dev-server/client?${URI}`, 'webpack/hot/dev-server');
     }
-  }
+  });
+
   const server = new WebpackDevServer(webpack(config), config.devServer);
   server.listen(port, host, (err) => {
     if (err) { console.log(err); }
