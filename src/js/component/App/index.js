@@ -6,15 +6,10 @@ import {
 
 import Main from '../Main';
 import Child from '../Child';
+import About from '../About';
 import Navigation from '../Navigation';
 
 import './index.styl';
-
-const About = () => (
-  <div>
-    <h2>About1234d5</h2>
-  </div>
-);
 
 
 const App = () => (
