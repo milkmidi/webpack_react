@@ -3,41 +3,42 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const DEV_MODE = process.env.NODE_ENV === 'development';
-console.log(`DEV_MODE:${DEV_MODE}`);
-
 
 const config = {
   context: path.resolve('src'),
   entry: {
     app: ['./js/index.js'],
-    vendor: ['react', 'react-dom', 'react-router-dom'],
+    vendor: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+    ],
   },
   output: {
     filename: 'asset/js/[name].js?[hash]',
     path: path.resolve(__dirname, './build'),
     publicPath: '',
   },
-  // devtool: "source-map",
   resolve: {
     modules: [
       path.resolve('src/html'),
       path.resolve('src/js'),
       path.resolve('node_modules'),
     ],
+    alias: {
+      '@': path.resolve(__dirname, 'src/js'),
+    },
     extensions: ['.js'],
   },
-  resolveLoader: {
-  },
-
   devServer: {
     contentBase: 'build',
     historyApiFallback: true,
     port: 8080,
+    hot: true,
     stats: {
       chunks: false,
       colors: true,
     },
-    hot: true,
   },
   module: {
     rules: [
@@ -63,10 +64,13 @@ const config = {
       {
         test: /\.(png|jpg)$/,
         use: {
-          loader: 'url-loader?limit=1024',
+          loader: 'url-loader',
+          options: { limit: 1024 },
         },
         exclude: /node_modules/,
       },
+      { test: /\.(eot|svg|ttf|woff|woff2|swf)$/, use: 'file-loader' },
+      { test: /\.json$/, use: 'json-loader' },
       {
         test: /\.pug$/,
         use: {
@@ -84,7 +88,6 @@ const config = {
       name: 'vendor',
       minChunks: Infinity,
     }),
-
     new HtmlWebpackPlugin({
       template: 'html/index.template.pug',
       data: {
@@ -92,7 +95,9 @@ const config = {
       },
     }),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': DEV_MODE ? "'development'" : '"production"',
+      'process.env': {
+        NODE_ENV: JSON.stringify(DEV_MODE ? 'development' : 'production'),
+      },
     }),
   ],
 };

@@ -4,11 +4,11 @@ module.exports = {
   env: {
     browser: true,
   },
-  extends: ['airbnb-base', "plugin:react/recommended"],
+  extends: ['airbnb-base', 'plugin:react/recommended'],
   parser: 'babel-eslint',
   parserOptions: {
-    "ecmaFeatures": {
-      "jsx": true
+    'ecmaFeatures': {
+      'jsx': true
     },
   },
   plugins: [
@@ -25,7 +25,7 @@ module.exports = {
     },
   },
   rules: {
-    "import/no-extraneous-dependencies": "off",
-    "import/prefer-default-export": "off",
+    'import/no-extraneous-dependencies': 'off',
+    'import/prefer-default-export': 'off',
   },
 };

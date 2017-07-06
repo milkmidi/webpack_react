@@ -6,8 +6,6 @@ import store from './reduxjs/store';
 
 import App from './component/App';
 
-import '../css/app.styl';
-
 
 render(
   <Provider store={store}>

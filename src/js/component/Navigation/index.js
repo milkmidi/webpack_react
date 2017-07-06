@@ -4,6 +4,8 @@ import {
   NavLink,
 } from 'react-router-dom';
 
+import './index.styl';
+
 const Navigation = () => (
   <Route render={() => (
     <div className="navigation_root">

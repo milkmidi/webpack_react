@@ -4,10 +4,11 @@ import {
   Route,
 } from 'react-router-dom';
 
-import Main from './Main';
-import Child from './Child';
-import Navigation from './Navigation';
+import Main from '../Main';
+import Child from '../Child';
+import Navigation from '../Navigation';
 
+import './index.styl';
 
 const About = () => (
   <div>

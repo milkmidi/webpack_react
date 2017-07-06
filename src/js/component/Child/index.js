@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-// import './child.styl';
+import './index.styl';
 
 export default class Child extends Component {
   constructor(prop) {

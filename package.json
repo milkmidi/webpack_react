@@ -5,9 +5,11 @@
   "name": "typescript-react-webpack",
   "scripts": {
     "start": "node_modules/.bin/webpack-dev-server --hot --devtool eval --progress",
-    "p": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --progress -p && react-snapshot"
+    "p": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --progress -p && react-snapshot",
+    "generate": "plop --plopfile script/generator/"
   },
   "devDependencies": {
+    "plop": "^1.8.0",
     "webpack-dev-server": "^2.5.0"
   },
   "dependencies": {
