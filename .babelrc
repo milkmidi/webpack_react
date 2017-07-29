@@ -5,7 +5,7 @@
     "stage-3",
     "react",
   ],
-   "env": {
+  "env": {
     "development": {
       "presets": ["react-hmre"]
     }

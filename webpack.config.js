@@ -42,6 +42,8 @@ const config = {
       chunks: false,
       colors: true,
     },
+    host: '0.0.0.0',
+    disableHostCheck: true,
   },
   module: {
     rules: [
