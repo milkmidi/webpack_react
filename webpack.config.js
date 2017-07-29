@@ -11,7 +11,6 @@ const config = {
   context: path.resolve('src'),
   entry: {
     app: [
-      //  'react-hot-loader/patch',
       './js/index.js'
     ],
     vendor: [
