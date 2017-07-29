@@ -8,7 +8,7 @@ import './index.styl';
 
 const About = () => (
   <div className="about-root">
-    <h2>About</h2>
+    <h2>a123</h2>
   </div>
 );
 About.proptTypes = {

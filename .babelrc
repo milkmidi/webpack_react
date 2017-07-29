@@ -3,8 +3,13 @@
     "env",
     "es2015",
     "stage-3",
-    "react"
+    "react",
   ],
+   "env": {
+    "development": {
+      "presets": ["react-hmre"]
+    }
+  },
   "plugins": [
     "transform-runtime",
     "transform-function-bind",

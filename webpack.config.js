@@ -2,7 +2,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const PrerenderSpaPlugin = require('prerender-spa-plugin');
+// const PrerenderSpaPlugin = require('prerender-spa-plugin');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 const DEV_MODE = process.env.NODE_ENV === 'development';
@@ -106,11 +106,11 @@ const config = {
   ],
 };
 
-if (!DEV_MODE) {
+/* if (!DEV_MODE) {
   config.plugins.push(new PrerenderSpaPlugin(
     path.join(__dirname, './dist'),
     ['/', '/about', '/child']
   ));
-}
+} */
 
 module.exports = config;

@@ -4,11 +4,12 @@
   "license": "ISC",
   "name": "typescript-react-webpack",
   "scripts": {
-    "start": "node_modules/.bin/webpack-dev-server --hot --devtool eval --progress",
+    "start": "cross-env NODE_ENV=development node_modules/.bin/webpack-dev-server --hot --devtool eval --progress",
     "p": "cross-env NODE_ENV=production ./node_modules/.bin/webpack --progress -p",
     "generate": "plop --plopfile script/generator/"
   },
   "devDependencies": {
+    "babel-preset-react-hmre": "^1.1.1",
     "plop": "^1.8.0",
     "webpack-dev-server": "^2.5.0"
   },
