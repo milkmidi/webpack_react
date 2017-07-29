@@ -1,17 +1,27 @@
-/* eslint-disable */
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 // const PrerenderSpaPlugin = require('prerender-spa-plugin');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 const DEV_MODE = process.env.NODE_ENV === 'development';
 
+const toFilename = (name, ext = 'js') => {
+  const units = [name, '.', ext];
+  if (!DEV_MODE) {
+    const hashStr = (ext === 'css' ? '-[contenthash]' : '-[chunkhash]');
+    units.splice(1, 0, hashStr);
+  }
+  return units.join('');
+};
+
 const config = {
   context: path.resolve('src'),
   entry: {
     app: [
-      './js/index.js'
+      './js/index.js',
     ],
     vendor: [
       'react',
@@ -20,8 +30,8 @@ const config = {
     ],
   },
   output: {
-    filename: 'asset/js/[name].js?[hash]',
-    path: path.resolve(__dirname, './dist'),
+    filename: toFilename('js/[name]'),
+    path: path.resolve(__dirname, './build'),
     publicPath: '',
   },
   resolve: {
@@ -60,11 +70,13 @@ const config = {
       },
       {
         test: /\.styl$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'stylus-loader',
-        ],
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            'css-loader',
+            'stylus-loader',
+          ],
+        }),
         include: [
           path.resolve('src/css'),
           path.resolve('src'),
@@ -104,12 +116,19 @@ const config = {
         DEV_MODE,
       },
     }),
+    new ExtractTextPlugin({
+      filename: toFilename('css/app', 'css'),
+      disable: DEV_MODE,
+    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(DEV_MODE ? 'development' : 'production'),
       },
     }),
-
+    ...DEV_MODE ? [
+    ] : [
+      new CleanWebpackPlugin(['build']),
+    ],
   ],
 };
 

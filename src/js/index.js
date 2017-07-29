@@ -1,10 +1,9 @@
 import React from 'react';
-import { render } from 'react-dom';
-// import { render } from 'react-snapshot';
+// import { render } from 'react-dom';
+import { render } from 'react-snapshot';
 import { Provider } from 'react-redux';
 import store from './reduxjs/store';
 
-import { AppContainer } from 'react-hot-loader';
 import App from './component/App';
 
 
