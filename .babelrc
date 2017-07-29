@@ -1,21 +1,15 @@
 {
   "presets": [
+    ["es2015", { "modules": false }],
     "env",
-    "es2015",
-    "stage-3",
-    "react",
+    "stage-0",
+    "react"
   ],
-  "env": {
-    "development": {
-      "presets": ["react-hmre"]
-    }
-  },
   "plugins": [
-    "transform-runtime",
-    "transform-function-bind",
-    "transform-class-properties",
-    "transform-object-rest-spread",
-    "transform-async-to-generator",
-    "transform-async-generator-functions"
+    "transform-runtime"
+    // "transform-class-properties",
+    // "transform-object-rest-spread",
+    // "transform-async-to-generator",
+    // "transform-async-generator-functions"
   ]
 }

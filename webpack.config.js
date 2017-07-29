@@ -10,7 +10,10 @@ const DEV_MODE = process.env.NODE_ENV === 'development';
 const config = {
   context: path.resolve('src'),
   entry: {
-    app: ['./js/index.js'],
+    app: [
+      //  'react-hot-loader/patch',
+      './js/index.js'
+    ],
     vendor: [
       'react',
       'react-dom',
@@ -49,7 +52,10 @@ const config = {
     rules: [
       {
         test: /.jsx?$/,
-        use: 'babel-loader',
+        use: [
+          'react-hot-loader/webpack',
+          'babel-loader',
+        ],
         include: path.resolve('src'),
         exclude: /node_modules/,
       },

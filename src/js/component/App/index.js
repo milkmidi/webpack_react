@@ -2,6 +2,7 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
+  Switch,
 } from 'react-router-dom';
 
 import Main from '../Main';
@@ -16,9 +17,11 @@ const App = () => (
   <Router>
     <main>
       <Navigation />
-      <Route exact path="/" component={Main}/>
-      <Route path="/about" component={About}/>
-      <Route path="/Child" component={Child}/>
+      <Switch>
+        <Route exact path="/" component={Main}/>
+        <Route path="/about" component={About}/>
+        <Route path="/Child" component={Child}/>
+      </Switch>
     </main>
   </Router>
 );

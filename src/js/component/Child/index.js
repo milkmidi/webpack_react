@@ -1,23 +1,30 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import './index.styl';
 
-export default class Child extends Component {
-  constructor(prop) {
-    super(prop);
-    this.state = {
-      count: 1,
-    };
-  }
-  clickHandler = () => {
-    this.setState({ count: 3 });
-    // this.setState({ count: this.state.count + 1 });
+const delay = (time = 1000) => new Promise(resolve => setTimeout(resolve, time));
+
+export default class Child extends PureComponent {
+  state = {
+    count: 1,
+  };
+
+  clickHandler = async () => {
+    let { count } = this.state;
+    count += 1;
+    this.setState({ count });
+    console.log(1);
+    await delay();
+    count += 1;
+    this.setState({ count });
+    console.log(2);
   }
   render() {
+    console.log('render');
     return (
       <div className="child_root">
-        <h1>Hello Child, {this.props.name}</h1>
+        <h1>Hello Child 123</h1>
         <h2>{this.state.count}</h2>
         <button onClick={this.clickHandler}>ChildButton</button>
       </div>

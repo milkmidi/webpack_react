@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './reduxjs/store';
 
-
+import { AppContainer } from 'react-hot-loader';
 import App from './component/App';
 
 
