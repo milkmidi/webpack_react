@@ -15,7 +15,7 @@ module.exports = {
     'react',
   ],
   globals: {
-    FB: true,
+    FB: false,
   },
   settings: {
     'import/resolver': {

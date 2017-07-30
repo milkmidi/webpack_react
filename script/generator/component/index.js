@@ -18,8 +18,9 @@ module.exports = {
       }
       return true;
       /* if ((/.+/).test(value)) {
-        return componentExists(value) ? 'A component or container with this name already exists' : true;
-      }*/
+        return componentExists(value) ?
+         'A component or container with this name already exists' : true;
+      } */
     },
   }],
   actions: (data) => {

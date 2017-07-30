@@ -58,7 +58,15 @@ const config = {
     disableHostCheck: true,
   },
   module: {
+
     rules: [
+      {
+        test: /\.jsx?$/,
+        enforce: 'pre',
+        loader: 'eslint-loader',
+        include: path.resolve('src'),
+        exclude: /node_modules/,
+      },
       {
         test: /.jsx?$/,
         use: [
