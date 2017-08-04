@@ -25,6 +25,7 @@ module.exports = {
     },
   },
   rules: {
+    'class-methods-use-this': 0,
     'import/no-extraneous-dependencies': 'off',
     'import/prefer-default-export': 'off',
   },

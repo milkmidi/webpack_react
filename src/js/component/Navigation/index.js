@@ -13,6 +13,7 @@ const Navigation = () => (
         <li><NavLink to="/" exact>Home</NavLink></li>
         <li><NavLink to="/about">About</NavLink></li>
         <li><NavLink to="/child">child</NavLink></li>
+        <li><NavLink to="/user/child">UserChild</NavLink></li>
       </ul>
       <hr/>
     </div>

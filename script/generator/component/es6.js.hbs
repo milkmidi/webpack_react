@@ -4,19 +4,28 @@
 
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
+
 import './index.styl';
 
-class {{ properCase this.name }} extends Component {
+class {{ properCase this.name }} extends Component { 
+  componentDidMount(){
+  }
+  componentWillReceiveProps(nextProps){
+  }
+  componentWillUnmount(){
+  }
   render() {
     return (
       <div className="{{dashCase name}}-root">
+        <h1>{{ properCase this.name }}</h1>
       </div>
     );
   }
 }
 
 {{ properCase name }}.propTypes = {
-
+};
+{{ properCase name }}.defaultProps = {
 };
 
 export default {{ properCase name }};

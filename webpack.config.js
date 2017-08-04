@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 // const PrerenderSpaPlugin = require('prerender-spa-plugin');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -32,7 +33,7 @@ const config = {
   output: {
     filename: toFilename('js/[name]'),
     path: path.resolve(__dirname, './build'),
-    publicPath: '',
+    publicPath: '/',
   },
   resolve: {
     modules: [
@@ -48,7 +49,7 @@ const config = {
   devServer: {
     contentBase: 'build',
     historyApiFallback: true,
-    port: 8080,
+    port: 3000,
     hot: true,
     stats: {
       chunks: false,
@@ -134,6 +135,7 @@ const config = {
       },
     }),
     ...DEV_MODE ? [
+      new FriendlyErrorsWebpackPlugin(),
     ] : [
       new CleanWebpackPlugin(['build']),
     ],
