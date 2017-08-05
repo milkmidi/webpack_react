@@ -37,6 +37,7 @@ export default class Main extends Component {
     const listItems = this.state.list.map(number => <li key={number.toString()}>{number}</li>);
     return (
       <div className="app">
+        <h1>Hi, React</h1>
         <ul>{listItems}</ul>
         <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
         <label>

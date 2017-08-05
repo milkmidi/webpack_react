@@ -1,15 +1,10 @@
 {
   "presets": [
-    ["es2015", { "modules": false }],
     "env",
     "stage-0",
     "react"
   ],
   "plugins": [
     "transform-runtime"
-    // "transform-class-properties",
-    // "transform-object-rest-spread",
-    // "transform-async-to-generator",
-    // "transform-async-generator-functions"
   ]
 }

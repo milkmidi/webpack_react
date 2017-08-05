@@ -46,28 +46,8 @@ const config = {
     },
     extensions: ['.js'],
   },
-  devServer: {
-    contentBase: 'build',
-    historyApiFallback: true,
-    port: 3000,
-    hot: true,
-    stats: {
-      chunks: false,
-      colors: true,
-    },
-    host: '0.0.0.0',
-    disableHostCheck: true,
-  },
   module: {
-
     rules: [
-      /* {
-        test: /\.jsx?$/,
-        enforce: 'pre',
-        loader: 'eslint-loader',
-        include: path.resolve('src'),
-        exclude: /node_modules/,
-      }, */
       {
         test: /.jsx?$/,
         use: [
@@ -140,6 +120,19 @@ const config = {
       new CleanWebpackPlugin(['build']),
     ],
   ],
+  devServer: {
+    contentBase: 'build',
+    historyApiFallback: true,
+    port: 3000,
+    hot: true,
+    stats: {
+      chunks: false,
+      chunkModules: false,
+      colors: true,
+    },
+    host: '0.0.0.0',
+    disableHostCheck: true,
+  },
 };
 
 /* if (!DEV_MODE) {
