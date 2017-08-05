@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
-import './index.styl';
+import './Child.styl';
 
 const delay = (time = 1000) => new Promise(resolve => setTimeout(resolve, time));
 

@@ -61,17 +61,17 @@ const config = {
   module: {
 
     rules: [
-      {
+      /* {
         test: /\.jsx?$/,
         enforce: 'pre',
         loader: 'eslint-loader',
         include: path.resolve('src'),
         exclude: /node_modules/,
-      },
+      }, */
       {
         test: /.jsx?$/,
         use: [
-          'react-hot-loader/webpack',
+          // 'react-hot-loader/webpack',
           'babel-loader',
         ],
         include: path.resolve('src'),

@@ -11,7 +11,7 @@ import About from '../About';
 import Navigation from '../Navigation';
 import User from '../User';
 
-import './index.styl';
+import './App.styl';
 
 
 const App = () => (

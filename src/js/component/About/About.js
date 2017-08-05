@@ -4,7 +4,7 @@
 
 import React from 'react';
 // import PropTypes from 'prop-types';
-import './index.styl';
+import './About.styl';
 
 const About = () => (
   <div className="about-root">

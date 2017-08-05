@@ -4,7 +4,7 @@ import {
   NavLink,
 } from 'react-router-dom';
 
-import './index.styl';
+import './Navigation.styl';
 
 const Navigation = () => (
   <Route render={() => (

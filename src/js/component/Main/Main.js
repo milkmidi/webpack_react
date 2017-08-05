@@ -20,6 +20,7 @@ export default class Main extends Component {
     this.setState({ value: event.target.value });
   }
   loginHandler = () => {
+    console.log('1');
     this.setState({ isLoggedIn: true });
   }
   stopTimer = () => {

@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './index.styl';
+import './User.styl';
 
 class User extends Component {
   render() {
