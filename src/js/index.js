@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import store from './reduxjs/store';
 
 import App from './component/App';
-
+import 'babel-polyfill';
 
 render(
   <Provider store={store}>
