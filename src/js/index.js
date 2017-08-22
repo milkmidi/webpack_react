@@ -1,11 +1,11 @@
 import React from 'react';
-// import { render } from 'react-dom';
-import { render } from 'react-snapshot';
+import { render } from 'react-dom';
+// import { render } from 'react-snapshot';
 import { Provider } from 'react-redux';
 import store from './reduxjs/store';
 
 import App from './component/App';
-import 'babel-polyfill';
+// import 'babel-polyfill';
 
 render(
   <Provider store={store}>

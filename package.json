@@ -4,12 +4,14 @@
   "name": "react-webpack",
   "scripts": {
     "start": "cross-env NODE_ENV=development node_modules/.bin/webpack-dev-server --hot --devtool eval",
-    "build": "npm run clear && cross-env NODE_ENV=production ./node_modules/.bin/webpack --progress -p && react-snapshot",
+    "build": "npm run clear && cross-env NODE_ENV=production ./node_modules/.bin/webpack --progress -p --hide-modules",
+    "build-snapshot": "npm run build && react-snapshot",
     "clear": "rimraf ./build",
     "generator": "plop --plopfile script/generator/"
   },
   "devDependencies": {
     "plop": "^1.8.0",
+    "static-site-generator-webpack-plugin": "^3.4.1",
     "webpack-dev-server": "^2.5.0"
   },
   "dependencies": {
@@ -22,6 +24,7 @@
     "babel-plugin-transform-runtime": "^6.22.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "1.6.0",
+    "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.22.0",
     "babel-preset-stage-0": "^6.22.0",
     "clean-webpack-plugin": "^0.1.16",

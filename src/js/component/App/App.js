@@ -15,21 +15,21 @@ import './App.styl';
 
 
 const App = () => (
-  <Router>
-    <main>
-      <Navigation />
-      <Switch>
-        <Route exact path="/" component={Main}/>
-        <Route path="/about" component={About}/>
-        <Route path="/Child" component={Child}/>
-        <Route path="/user" render={({ match }) =>
-          <User>
-            <Route path={`${match.url}/child`} component={Child} />
-          </User>
-        }/>
-      </Switch>
-    </main>
-  </Router>
+  // <Router>
+  <main>
+    <Navigation />
+    <Switch>
+      <Route exact path="/" component={Main}/>
+      <Route path="/about" component={About}/>
+      <Route path="/Child" component={Child}/>
+      <Route path="/user" render={({ match }) =>
+        <User>
+          <Route path={`${match.url}/child`} component={Child} />
+        </User>
+      }/>
+    </Switch>
+  </main>
+  // </Router>
 );
 
 

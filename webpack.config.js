@@ -5,6 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 // const PrerenderSpaPlugin = require('prerender-spa-plugin');
+const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 const DEV_MODE = process.env.NODE_ENV === 'development';
@@ -22,19 +23,19 @@ const config = {
   context: path.resolve('src'),
   entry: {
     app: [
-      './js/index.js',
+      './js/entry.js',
     ],
     vendor: [
-      'babel-polyfill',
       'react',
       'react-dom',
       'react-router-dom',
     ],
   },
   output: {
-    filename: toFilename('js/[name]'),
+    filename: toFilename('asset/js/[name]'),
     path: path.resolve(__dirname, './build'),
     publicPath: '/',
+    libraryTarget: 'umd',
   },
   resolve: {
     modules: [
@@ -52,7 +53,6 @@ const config = {
       {
         test: /.jsx?$/,
         use: [
-          // 'react-hot-loader/webpack',
           'babel-loader',
         ],
         include: path.resolve('src'),
@@ -89,25 +89,25 @@ const config = {
           loader: 'pug-loader',
           options: {
             self: true,
-            pretty: DEV_MODE,
+            pretty: true,
           },
         },
       },
     ],
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
+    /* new webpack.optimize.CommonsChunkPlugin({
+      names: ['vendor'],
       minChunks: Infinity,
-    }),
-    new HtmlWebpackPlugin({
+    }), */
+    /*    new HtmlWebpackPlugin({
       template: 'html/index.template.pug',
       data: {
         DEV_MODE,
       },
-    }),
+    }), */
     new ExtractTextPlugin({
-      filename: toFilename('css/app', 'css'),
+      filename: toFilename('asset/css/app', 'css'),
       disable: DEV_MODE,
     }),
     new webpack.DefinePlugin({
@@ -119,6 +119,18 @@ const config = {
       new FriendlyErrorsWebpackPlugin(),
     ] : [
       new CleanWebpackPlugin(['build']),
+      new StaticSiteGeneratorPlugin({
+        // crawl: true,
+        entry: 'app',
+        paths: [
+          '/',
+          '/about/',
+        ],
+        locals: {
+          template: '<templete!!!>',
+        },
+        window: {},
+      }),
     ],
   ],
   devServer: {
@@ -135,12 +147,5 @@ const config = {
     disableHostCheck: true,
   },
 };
-
-/* if (!DEV_MODE) {
-  config.plugins.push(new PrerenderSpaPlugin(
-    path.join(__dirname, './dist'),
-    ['/', '/about', '/child']
-  ));
-} */
 
 module.exports = config;
