@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
   Route,
   Switch,
 } from 'react-router-dom';
@@ -15,7 +14,6 @@ import './App.styl';
 
 
 const App = () => (
-  // <Router>
   <main>
     <Navigation />
     <Switch>
@@ -29,7 +27,6 @@ const App = () => (
       }/>
     </Switch>
   </main>
-  // </Router>
 );
 
 

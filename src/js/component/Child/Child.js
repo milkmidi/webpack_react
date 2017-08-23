@@ -21,10 +21,9 @@ export default class Child extends PureComponent {
     console.log(3);
   }
   render() {
-    console.log('render');
     return (
       <div className="child_root">
-        <h1>Hello Child 123</h1>
+        <h1>Hello Child</h1>
         <h2>{this.state.count}</h2>
         <button onClick={this.clickHandler}>ChildButton</button>
       </div>

@@ -6,6 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 // const PrerenderSpaPlugin = require('prerender-spa-plugin');
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
+const ReplaceSSR = require('./internal/webpackPlugins/ReplaceSSR');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 const DEV_MODE = process.env.NODE_ENV === 'development';
@@ -23,7 +24,7 @@ const config = {
   context: path.resolve('src'),
   entry: {
     app: [
-      './js/entry.js',
+      './js/index.js',
     ],
     vendor: [
       'react',
@@ -52,9 +53,7 @@ const config = {
     rules: [
       {
         test: /.jsx?$/,
-        use: [
-          'babel-loader',
-        ],
+        use: ['babel-loader'],
         include: path.resolve('src'),
         exclude: /node_modules/,
       },
@@ -96,16 +95,19 @@ const config = {
     ],
   },
   plugins: [
-    /* new webpack.optimize.CommonsChunkPlugin({
-      names: ['vendor'],
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['vendor', 'manifest'],
+      children: true,
       minChunks: Infinity,
-    }), */
-    /*    new HtmlWebpackPlugin({
+    }),
+    new HtmlWebpackPlugin({
       template: 'html/index.template.pug',
+      chunks: ['app', 'vendor', 'manifest'],
+      filename: `${DEV_MODE ? 'index' : '200'}.html`,
       data: {
         DEV_MODE,
       },
-    }), */
+    }),
     new ExtractTextPlugin({
       filename: toFilename('asset/css/app', 'css'),
       disable: DEV_MODE,
@@ -120,21 +122,21 @@ const config = {
     ] : [
       new CleanWebpackPlugin(['build']),
       new StaticSiteGeneratorPlugin({
-        // crawl: true,
         entry: 'app',
         paths: [
           '/',
           '/about/',
         ],
         locals: {
-          template: '<templete!!!>',
         },
-        window: {},
+      }),
+      new ReplaceSSR({
+
       }),
     ],
   ],
   devServer: {
-    contentBase: 'build',
+    // contentBase: 'build',
     historyApiFallback: true,
     port: 3000,
     hot: true,

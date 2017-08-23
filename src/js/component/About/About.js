@@ -3,15 +3,12 @@
 */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
 import './About.styl';
 
 const About = () => (
   <div className="about-root">
-    <h2>a123</h2>
+    <h1>hi About</h1>
   </div>
 );
-About.proptTypes = {
 
-};
 export default About;
