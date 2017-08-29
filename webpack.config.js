@@ -38,6 +38,7 @@ const config = {
     publicPath: '/',
     libraryTarget: 'umd',
   },
+  devtool: DEV_MODE ? 'cheap-module-source-map' : false,
   resolve: {
     modules: [
       path.resolve('src/html'),

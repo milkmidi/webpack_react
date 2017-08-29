@@ -23,7 +23,6 @@ gulp.task('webpack-dev-server', (cb) => {
 
   const config = require('./webpack.config.js');
 
-  config.devtool = 'inline-source-map';
 
   const { entry } = config;
   Object.keys(entry).forEach((key) => {
@@ -31,6 +30,7 @@ gulp.task('webpack-dev-server', (cb) => {
       entry[key].unshift(`webpack-dev-server/client?${URI}`, 'webpack/hot/dev-server');
     }
   });
+  config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
   const server = new WebpackDevServer(webpack(config), config.devServer);
   server.listen(port, host, (err) => {
@@ -42,12 +42,28 @@ gulp.task('webpack-dev-server', (cb) => {
 
 gulp.task('webpack-build', (cb) => {
   process.env.NODE_ENV = 'production';
-  const config = require('./webpack.config.js');
-  webpack(config, (err, stats) => {
+  const config = require('./webpack.config');
+  config.plugins.push(
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.LoaderOptionsPlugin({
+      test: /\.(css|scss|styl)$/,
+      minimize: true,
+    }));
+  const compiler = webpack(config);
+  compiler.apply(new webpack.ProgressPlugin());
+  compiler.run((err, stats) => {
     if (err) {
-      throw new gutil.PluginError('webpack', err);
+      throw new gutil.PluginError('webpack:build', err);
     }
-    gutil.log('[webpack]', stats.toString({ colors: true, chunkModules: false }));
+    if (stats.hasErrors()) {
+      console.error(stats.toString('errors-only'));
+      return;
+    }
+    console.log('[webpack:build]', stats.toString({
+      colors: true,
+      children: false,
+      modules: false,
+    }));
     cb();
   });
 });
