@@ -126,6 +126,7 @@ const config = {
         paths: [
           '/',
           '/about/',
+          '/child/',
         ],
         locals: {
         },
