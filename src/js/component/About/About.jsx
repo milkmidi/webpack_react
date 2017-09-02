@@ -34,14 +34,16 @@ class DeviceInfo extends Component {
     super(props);
     this.state = {
       windowSize: 0,
-      devicePixelRatio: window.devicePixelRatio,
+      devicePixelRatio: 0,
     };
     this.resizeHandler = this.resizeHandler.bind(this);
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.resizeHandler);
-    this.resizeHandler();
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', this.resizeHandler);
+      this.resizeHandler();
+    }
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.resizeHandler);
@@ -49,6 +51,7 @@ class DeviceInfo extends Component {
   resizeHandler() {
     const state = this.state;
     state.windowSize = `${window.innerWidth} x ${window.innerHeight}`;
+    state.devicePixelRatio = window.devicePixelRatio;
     this.setState(state);
   }
   render() {

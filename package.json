@@ -53,8 +53,6 @@
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
-    "react-router-page-transition": "^3.0.2",
-    "react-router-transition": "^1.0.0",
     "react-snapshot": "^1.1.0",
     "react-transition-group": "^2.2.0",
     "redux": "^3.7.1",

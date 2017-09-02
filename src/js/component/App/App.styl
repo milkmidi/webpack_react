@@ -3,20 +3,38 @@
 h1
   font-size 80px
 
-.fade-enter {
-  opacity: 0.01;
-}
+body.animate
+  main
+    overflow: hidden
+main
+  display: block
+  position relative
+  overflow: auto
 
-.fade-enter.fade-enter-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
-}
+transitionEase = cubic-bezier(0.215, 0.61, 0.355, 1)    
+transitionTime = 0.5s
+transitionValue
+  transition all transitionTime transitionEase
 
-.fade-exit {
-  opacity: 1;
-}
+.fade-appear
+.fade-enter 
+  opacity 0
+  transform scale(1.12) translateX(50px) 
 
-.fade-exit.fade-exit-active {
-  opacity: 0.01;
-  transition: opacity 300ms ease-in;
-}
+.fade-appear-active
+.fade-enter-active
+  @extend transitionValue
+  transform-origin 0 50%
+  opacity 1
+  transform: translateX(0) translateZ(0)
+
+
+.fade-exit 
+  @extend transitionValue
+  opacity 1
+
+.fade-exit-active 
+  transform: translateX(-50px)
+  position absolute
+  top 0
+  opacity 0

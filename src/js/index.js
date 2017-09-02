@@ -35,8 +35,11 @@ if (typeof document !== 'undefined') {
 export default function (locals, callback) {
   // const str = ReactDOMServer.renderToStaticMarkup(
   const ssrStr = ReactDOMServer.renderToString(
-    <StaticRouter location={locals.path} context={{}}>
-      <App />
-    </StaticRouter>);
+    <Provider store={store}>
+      <StaticRouter location={locals.path} context={{}}>
+        <App />
+      </StaticRouter>
+    </Provider>,
+  );
   callback(null, ssrStr);
 }

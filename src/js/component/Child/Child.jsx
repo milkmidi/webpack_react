@@ -15,16 +15,12 @@ export default class Child extends PureComponent {
   state = {
     count: 1,
   };
-
   constructor(props) {
     super(props);
     this.clickHandler = this.clickHandler.bind(this);
   }
-
-
   componentDidMount() {
   }
-
   clickHandler() {
     /* let { count } = this.state;
     count += 1;
