@@ -25,6 +25,8 @@
     ["transform-runtime", {
       "helpers": false,
       "polyfill": false
-    }]
+    }],
+    "transform-decorators-legacy",
+    "transform-react-pug"
   ]
 }

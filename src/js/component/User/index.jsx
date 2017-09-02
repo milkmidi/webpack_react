@@ -10,7 +10,7 @@ class User extends Component {
   render() {
     return (
       <div className="user-root">
-        <h1>Hi</h1>
+        <h1>Hi, {this.props.name}</h1>
         {this.props.children}
       </div>
     );
@@ -19,6 +19,7 @@ class User extends Component {
 
 User.propTypes = {
   children: PropTypes.node,
+  name: PropTypes.string,
 };
 
 export default User;

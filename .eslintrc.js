@@ -16,6 +16,7 @@ module.exports = {
   ],
   globals: {
     FB: false,
+    pug: false,
   },
   settings: {
     'import/resolver': {
@@ -24,8 +25,10 @@ module.exports = {
       },
     },
   },
-  rules: {
+  rules: {    
     'class-methods-use-this': 0,
+    'import/extensions': 0,
+    'import/no-unresolved': 0,
     'import/no-extraneous-dependencies': 'off',
     'import/prefer-default-export': 'off',
   },

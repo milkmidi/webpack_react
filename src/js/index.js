@@ -10,18 +10,24 @@ import { Provider } from 'react-redux';
 import store from './reduxjs/store';
 import App from './component/App';
 
-if (typeof document !== 'undefined') {
+
+const renderApp = Component =>
   render(
     <Provider store={store}>
       <Router>
-        <App />
+        <Component />
       </Router>
     </Provider>,
     document.getElementById('root'),
   );
 
+if (typeof document !== 'undefined') {
+  renderApp(App);
+
   if (module.hot) {
-    module.hot.accept();
+    module.hot.accept('./component/App', () => {
+      renderApp(App);
+    });
   }
 }
 

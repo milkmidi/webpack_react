@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
-// const PrerenderSpaPlugin = require('prerender-spa-plugin');
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const ReplaceSSR = require('./internal/webpackPlugins/ReplaceSSR');
 
@@ -46,9 +45,11 @@ const config = {
       path.resolve('node_modules'),
     ],
     alias: {
-      '@': path.resolve(__dirname, 'src/js'),
+      '~': path.resolve('src/'),
+      '@': path.resolve('src/js'),
+      img: path.resolve('src/asset/img'),
     },
-    extensions: ['.js'],
+    extensions: ['.js', '.jsx'],
   },
   module: {
     rules: [
@@ -132,9 +133,7 @@ const config = {
         locals: {
         },
       }),
-      new ReplaceSSR({
-
-      }),
+      new ReplaceSSR({}),
     ],
   ],
   devServer: {
