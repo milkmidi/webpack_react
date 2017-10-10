@@ -4,6 +4,7 @@
   "name": "react-webpack",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --hot --devtool eval",
+    "build-server": "cross-env NODE_ENV=production webpack --config internal/webpack/webpack.server.js --progress -p --hide-modules",
     "build": "npm run clear && cross-env NODE_ENV=production webpack --progress -p --hide-modules",
     "build-snapshot": "npm run build && react-snapshot",
     "clear": "rimraf ./build",
@@ -37,6 +38,7 @@
     "eslint-loader": "^1.9.0",
     "eslint-plugin-import": "^2.6.1",
     "eslint-plugin-react": "^7.1.0",
+    "extract-css-chunks-webpack-plugin": "^2.0.17",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
     "friendly-errors-webpack-plugin": "^1.6.1",
@@ -54,6 +56,7 @@
     "react-router-dom": "^4.1.1",
     "react-snapshot": "^1.1.0",
     "react-transition-group": "^2.2.1",
+    "react-universal-component": "^2.5.5",
     "redux": "^3.7.1",
     "redux-thunk": "^2.2.0",
     "rimraf": "^2.6.2",
@@ -64,6 +67,7 @@
     "styled-components": "^2.1.2",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
-    "webpack": "^3.6.0"
+    "webpack": "^3.6.0",
+    "webpack-flush-chunks": "^1.1.23"
   }
 }

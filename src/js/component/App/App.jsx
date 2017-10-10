@@ -26,6 +26,7 @@ const transitionHandler = {
   },
 };
 
+
 const App = ({ location }) => {
   const key = location.pathname;
   return (
