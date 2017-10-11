@@ -22,6 +22,7 @@
     "react"
   ],
   "plugins": [
+    "universal-import",
     ["transform-runtime", {
       "helpers": false,
       "polyfill": false

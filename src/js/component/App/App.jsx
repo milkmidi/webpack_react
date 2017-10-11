@@ -1,62 +1,103 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {
-  Route,
-  Switch,
-  withRouter,
-} from 'react-router-dom';
-
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-
-import User from '@/container/UserContainer';
-import Main from '../Main';
-import Child from '../Child';
-import About from '../About';
+import universal from 'react-universal-component';
+// import styles from '../css/App';
+// import UsageHero from './UsageHero';
+// import Loading from './Loading';
+// import NotFound from './NotFound';
 import Navigation from '../Navigation';
+import { pages, nextIndex, indexFromPath } from './utils';
 
-import './App.styl';
+const UniversalComponent = universal(props => import(`../${props.page}`), {
+  // minDelay: 1200,
+  // loading: Loading,
+  // error: NotFound,
+});
 
-const transitionHandler = {
-  timeout: 500,
-  onEnter() {
-    document.querySelector('body').classList.add('animate');
-  },
-  onEntered() {
-    document.querySelector('body').classList.remove('animate');
-  },
-};
+export default class App extends React.Component {
+  render() {
+    const { index, done, loading } = this.state;
+    const page = pages[index];
+    // const loadingClass = loading ? styles.loading : '';
+    // const buttonClass = `${styles[page]} ${loadingClass}`;
 
+    return (
+      <div>
+        <h1>Hello Reactlandia</h1>
+        {done && <div>all loaded ✔</div>}
 
-const App = ({ location }) => {
-  const key = location.pathname;
-  return (
-    <div className="app">
-      <Navigation />
-      <TransitionGroup component="main" className="main" >
-        <CSSTransition
-          key={key}
-          timeout={transitionHandler.timeout}
-          classNames="fade"
-          onEnter={transitionHandler.onEnter}
-          onEntered={transitionHandler.onEntered} >
-          <Switch key={key} location={location}>
-            <Route exact path="/" component={Main}/>
-            <Route exact path="/about" component={About}/>
-            <Route exact path="/child" component={Child}/>
-            <Route path="/user" render={({ match }) =>
-              <User>
-                <Route exact path={`${match.url}/child`} component={Child} />
-              </User>
-            }/>
-          </Switch>
-        </CSSTransition>
-      </TransitionGroup >
-    </div>
-  );
-};
-App.propTypes = {
-  location: PropTypes.object,
-};
+        <Navigation />
+        {/* <UsageHero page={page} /> */}
 
+        <UniversalComponent
+          page={page}
+          onBefore={this.beforeChange}
+          onAfter={this.afterChange}
+          onError={this.handleError}
+        />
 
-export default withRouter(App);
+        <button onClick={this.changePage}>
+          {this.buttonText()}
+        </button>
+
+        <p>
+          <span>*why are you looking at this? refresh the page</span>
+          <span>and view the source in Chrome for the real goods</span>
+        </p>
+      </div>
+    );
+  }
+
+  constructor(props) {
+    super(props);
+
+    const { history } = props;
+    const index = indexFromPath(history.location.pathname);
+    // console.log(history.location.pathname);
+
+    this.state = {
+      index,
+      loading: false,
+      done: false,
+      error: false,
+    };
+
+    history.listen(({ pathname }) => {
+      const index = indexFromPath(pathname);
+      console.log(pathname);
+      this.setState({ index });
+    });
+  }
+
+  changePage = () => {
+    if (this.state.loading) return;
+
+    const index = nextIndex(this.state.index);
+    const page = pages[index];
+
+    this.props.history.push(`/${page}`);
+  }
+
+  beforeChange = ({ isSync }) => {
+    if (!isSync) {
+      this.setState({ loading: true, error: false });
+    }
+  }
+
+  afterChange = ({ isSync, isServer, isMount }) => {
+    if (!isSync) {
+      this.setState({ loading: false, error: false });
+    } else if (!isServer && !isMount) {
+      this.setState({ done: true, error: false });
+    }
+  }
+
+  handleError = (error) => {
+    this.setState({ error: true, loading: false });
+  }
+
+  buttonText() {
+    const { loading, error } = this.state;
+    if (error) return 'ERROR';
+    return loading ? 'LOADING...' : 'CHANGE PAGE';
+  }
+}

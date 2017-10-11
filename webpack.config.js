@@ -6,6 +6,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const ReplaceSSR = require('./internal/webpackPlugins/ReplaceSSR');
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 const DEV_MODE = process.env.NODE_ENV === 'development';
@@ -23,6 +24,7 @@ const config = {
   context: path.resolve('src'),
   entry: {
     app: [
+      'react-hot-loader/patch',
       './js/index.js',
     ],
     vendor: [
@@ -97,6 +99,7 @@ const config = {
     ],
   },
   plugins: [
+    new ExtractCssChunks(),
     new webpack.optimize.CommonsChunkPlugin({
       names: ['vendor', 'manifest'],
       children: true,

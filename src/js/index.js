@@ -6,29 +6,34 @@ import {
 } from 'react-router-dom';
 import ReactDOMServer from 'react-dom/server';
 // import { render } from 'react-snapshot';
+import AppContainer from 'react-hot-loader/lib/AppContainer';
+import createHistory from 'history/createBrowserHistory';
 import { Provider } from 'react-redux';
 import store from './reduxjs/store';
 import App from './component/App';
 
+const history = createHistory();
+
 
 const renderApp = Component =>
   render(
-    <Provider store={store}>
-      <Router>
-        <Component />
-      </Router>
-    </Provider>,
+    <AppContainer>
+      <Provider store={store}>
+        <Router>
+          <Component history={history}/>
+        </Router>
+      </Provider>
+    </AppContainer>,
     document.getElementById('root'),
   );
 
-if (typeof document !== 'undefined') {
+if (typeof document !== 'undefined' && process.env.NODE_ENV === 'development' && module.hot) {
   renderApp(App);
 
-  if (module.hot) {
-    module.hot.accept('./component/App', () => {
-      renderApp(App);
-    });
-  }
+  module.hot.accept('./component/App', () => {
+    const NewApp = require('./component/App').default;
+    renderApp(NewApp);
+  });
 }
 
 // React Prerender
