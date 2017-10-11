@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+import $script from 'scriptjs';
 import './Child.styl';
 import { setName } from '../../reduxjs/action';
 
@@ -18,8 +18,16 @@ export default class Child extends PureComponent {
   constructor(props) {
     super(props);
     this.clickHandler = this.clickHandler.bind(this);
+    this.resizeHandler = this.resizeHandler.bind(this);
   }
   componentDidMount() {
+    window.addEventListener('resize', this.resizeHandler);
+  }
+  componentUnmount() {
+    window.removeEventListener('resize', this.resizeHandler);
+  }
+  resizeHandler() {
+
   }
   clickHandler() {
     /* let { count } = this.state;

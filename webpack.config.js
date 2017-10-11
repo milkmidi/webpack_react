@@ -23,6 +23,7 @@ const config = {
   context: path.resolve('src'),
   entry: {
     app: [
+      'react-hot-loader/patch',
       './js/index.js',
     ],
     vendor: [
@@ -124,10 +125,11 @@ const config = {
     ] : [
       new CleanWebpackPlugin(['build']),
       new StaticSiteGeneratorPlugin({
+        crawl: true,
         entry: 'app',
         paths: [
           '/',
-          '/about/',
+          // '/about/',
           '/child/',
         ],
         locals: {
