@@ -1,36 +1,43 @@
 import React from 'react';
-import { render } from 'react-dom';
-import {
-  BrowserRouter as Router,
-  StaticRouter,
-} from 'react-router-dom';
-import ReactDOMServer from 'react-dom/server';
-// import { render } from 'react-snapshot';
 import { Provider } from 'react-redux';
-import store from './reduxjs/store';
-import App from './component/App';
+import { Router } from 'react-router-dom';
+import { render } from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
 
-if (typeof document !== 'undefined') {
+import App from '@/container/App';
+import configureStore from '@/configureStore';
+import '~/css/app.styl';
+import createHistory from 'history/createBrowserHistory';
+
+const history = createHistory();
+const store = configureStore();
+
+// eslint-disable-next-line
+console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+
+const renderApp = (Component) => {
   render(
-    <Provider store={store}>
-      <Router>
-        <App />
-      </Router>
-    </Provider>,
-    document.getElementById('root'),
+    <AppContainer>
+      <Provider store={store}>
+        <Router history={history}>
+          <Component />
+        </Router>
+      </Provider>
+    </AppContainer>
+    ,
+    document.getElementById('app'),
   );
+};
 
+renderApp(App);
+
+
+if (process.env.NODE_ENV === 'development') {
   if (module.hot) {
-    module.hot.accept();
+    module.hot.accept('./container/App', () => {
+    // eslint-disable-next-line
+      const NewApp = require('./container/App').default;
+      renderApp(NewApp);
+    });
   }
-}
-
-// React Prerender
-export default function (locals, callback) {
-  // const str = ReactDOMServer.renderToStaticMarkup(
-  const ssrStr = ReactDOMServer.renderToString(
-    <StaticRouter location={locals.path} context={{}}>
-      <App />
-    </StaticRouter>);
-  callback(null, ssrStr);
 }

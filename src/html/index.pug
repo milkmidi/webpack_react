@@ -1,0 +1,20 @@
+- var devMode = self.htmlWebpackPlugin.options.data.DEV_MODE
+- var title = "title";
+- var description = ""
+- var keywords = "";
+- var image = "img/fb.jpg"
+doctype html
+html
+  head
+    title=title
+    meta(charset='UTF-8')
+    meta(http-equiv="X-UA-Compatible" content="IE=edge,chrome=1")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no")
+    meta(name="description" content=description)
+    meta(name="keywords" content=keywords)
+    meta(property="og:title" content=title)
+    meta(property="og:site_name" content=title)
+    meta(property="og:description" content=description)
+    meta(property="og:type" content="website")
+  body
+    #app
