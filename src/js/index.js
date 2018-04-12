@@ -1,56 +1,43 @@
 import React from 'react';
-import { render } from 'react-dom';
-import {
-  BrowserRouter as Router,
-  StaticRouter,
-} from 'react-router-dom';
-import { AppContainer } from 'react-hot-loader';
-import ReactDOMServer from 'react-dom/server';
-// import { render } from 'react-snapshot';
 import { Provider } from 'react-redux';
-import store from './reduxjs/store';
-import App from './component/App';
+import { Router } from 'react-router-dom';
+import { render } from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
 
+import App from '@/container/App';
+import configureStore from '@/configureStore';
+import '~/css/app.styl';
+import createHistory from 'history/createBrowserHistory';
 
-const renderApp = Component =>
+const history = createHistory();
+const store = configureStore();
+
+// eslint-disable-next-line
+console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+
+const renderApp = (Component) => {
   render(
     <AppContainer>
       <Provider store={store}>
-        <Router>
+        <Router history={history}>
           <Component />
         </Router>
       </Provider>
-    </AppContainer>,
-    document.getElementById('root'),
+    </AppContainer>
+    ,
+    document.getElementById('app'),
   );
+};
 
-if (typeof document !== 'undefined') {
-  renderApp(App);
+renderApp(App);
 
+
+if (process.env.NODE_ENV === 'development') {
   if (module.hot) {
-    module.hot.accept('./component/App', () => {
-      renderApp(App);
+    module.hot.accept('./container/App', () => {
+    // eslint-disable-next-line
+      const NewApp = require('./container/App').default;
+      renderApp(NewApp);
     });
   }
-}
-
-// React Prerender
-export default function (locals, callback) {
-  // const str = ReactDOMServer.renderToStaticMarkup(
-  const assets = Object.keys(locals.webpackStats.compilation.assets);
-  console.log('---------------------');
-  console.log(locals.path);
-  console.log('---------------------');
-  console.log(locals.assets);
-  console.log('---------------------');
-  console.log(assets);
-  // console.log(locals.webpackStats);
-  const prerenderStr = ReactDOMServer.renderToString(
-    <Provider store={store}>
-      <StaticRouter location={locals.path} context={{}}>
-        <App />
-      </StaticRouter>
-    </Provider>,
-  );
-  callback(null, prerenderStr);
 }

@@ -1,0 +1,12 @@
+[ignore]
+.*/node_modules/styled-components/.*
+.*/node_modules/pubnub/.*
+.*/node_modules/babel-plugin-transform-react-remove-prop-types/.*
+.*/node_modules/polished/.*
+
+[include]
+
+[libs]
+
+[options]
+module.name_mapper='^@\/\(.*\)$' -> '<PROJECT_ROOT>/app/\1'

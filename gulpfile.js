@@ -1,72 +1,39 @@
-/* eslint global-require:off, no-console:off */
+/* eslint no-console: 0, no-bitwise: 0, no-mixed-operators: 0 */
 const gulp = require('gulp');
-const runSequence = require('run-sequence');
-const webpack = require('webpack');
-const gutil = require('gulp-util');
-const WebpackDevServer = require('webpack-dev-server');
-const rimraf = require('rimraf');
-
-gulp.task('rimraf', (cb) => {
-  console.log('rimraf');
-  rimraf('./dist', cb);
-});
+const $ = require('gulp-load-plugins')();
+const merge = require('merge-stream');
 
 gulp.task('m', () => {
+  const imgSrc = [
+    'src/asset/img_src/**/*.+(jpg|png|gif|svg)',
+    '!src/asset/img_src/_*',
+  ];
+  const otherSrc = imgSrc.map(imgPath => (imgPath.indexOf('!') === 0 ? imgPath.substr(1) : `!${imgPath}`));
+  const imgDest = 'src/asset/img';
+  const imageminPngquant = require('imagemin-pngquant');
+  const imageminMozjpeg = require('imagemin-mozjpeg');
+
+  const taskOtherSrc = gulp.src(otherSrc)
+    .pipe($.changed(imgDest))
+    .pipe($.size({ showFiles: true }))
+    .pipe(gulp.dest(imgDest));
+
+  const taskImgSrc = gulp.src(imgSrc)
+    .pipe($.changed(imgDest))
+    .pipe($.size({ showFiles: true }))
+    .pipe($.imagemin([
+      imageminMozjpeg({ quality: 90 }),
+      imageminPngquant({ quality: 90 }),
+    ]))
+    .pipe(gulp.dest(imgDest));
+
+  return merge(taskOtherSrc, taskImgSrc);
 });
 
-gulp.task('webpack-dev-server', (cb) => {
-  process.env.NODE_ENV = 'development';
 
-  const host = 'localhost';
-  const port = 3000;
-  const URI = `http://${host}:${port}/`;
-
-  const config = require('./webpack.config.js');
-
-
-  const { entry } = config;
-  Object.keys(entry).forEach((key) => {
-    if (key !== 'vendor') {
-      entry[key].unshift(`webpack-dev-server/client?${URI}`, 'webpack/hot/dev-server');
-    }
-  });
-  config.plugins.push(new webpack.HotModuleReplacementPlugin());
-
-  const server = new WebpackDevServer(webpack(config), config.devServer);
-  server.listen(port, host, (err) => {
-    if (err) { console.log(err); }
-    gutil.log('[webpack-dev-server]', URI);
-    cb();
-  });
+gulp.task('watch', () => {
+  gulp.watch('src/asset/img_src/**/*', ['m']);
 });
 
-gulp.task('webpack-build', (cb) => {
-  process.env.NODE_ENV = 'production';
-  const config = require('./webpack.config');
-  config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin(),
-    new webpack.LoaderOptionsPlugin({
-      test: /\.(css|scss|styl)$/,
-      minimize: true,
-    }));
-  const compiler = webpack(config);
-  compiler.apply(new webpack.ProgressPlugin());
-  compiler.run((err, stats) => {
-    if (err) {
-      throw new gutil.PluginError('webpack:build', err);
-    }
-    if (stats.hasErrors()) {
-      console.error(stats.toString('errors-only'));
-      return;
-    }
-    console.log('[webpack:build]', stats.toString({
-      colors: true,
-      children: false,
-      modules: false,
-    }));
-    cb();
-  });
-});
-gulp.task('default', ['webpack-dev-server']);
+gulp.task('default', ['m', 'watch']);
 
-gulp.task('p', () => runSequence('rimraf', 'm', 'webpack-build'));

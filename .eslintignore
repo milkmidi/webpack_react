@@ -1,3 +1,5 @@
-build/*
-dist/*
-node_modules/*
+dist/
+build/
+node_mdules/
+flow-typed/
+!.eslintrc.js
