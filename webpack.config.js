@@ -1,5 +1,6 @@
+/* eslint no-console:0 */
 const path = require('path');
-const webpack = require('webpack');
+const chalk = require('chalk');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
@@ -9,26 +10,20 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 const DEV_MODE = process.env.NODE_ENV === 'development';
 
-console.log('DEV_MODE', DEV_MODE);
+console.log(chalk.bgGreen.black('process.env.NODE_ENV', process.env.NODE_ENV));
 const toFilename = (name, ext = 'js') => {
   let units = `${name}.${ext}`;
   if (!DEV_MODE) {
-    units += (ext === 'css' ? '?[contenthash]' : '?[chunkhash]');
+    units += (ext === 'css' ? '?[chunkhash]' : '?[chunkhash]');
   }
   return units;
 };
 
-
 const config = {
+  mode: process.env.NODE_ENV,
   context: path.resolve('src'),
   entry: {
     app: ['./js/index.js'],
-    vendor: [
-      'react',
-      'react-dom',
-      'react-router-dom',
-      'react-redux',
-    ],
   },
   output: {
     filename: toFilename('asset/js/[name]'),
@@ -36,7 +31,7 @@ const config = {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/',
   },
-  devtool: DEV_MODE ? 'cheap-module-source-map' : false,
+  devtool: DEV_MODE ? 'inline-source-map' : false,
   resolve: {
     modules: [
       path.resolve('src'),
@@ -44,7 +39,6 @@ const config = {
       path.resolve('node_modules'),
     ],
     alias: {
-      common: path.resolve('./common'),
       '~': path.resolve('./src'),
       '@': path.resolve('./src/js'),
       img: path.resolve('./src/asset/img'),
@@ -66,7 +60,7 @@ config.module = {
     {
       test: /\.js(x?)$/,
       use: ['babel-loader'],
-      include: [path.resolve('src/js')],
+      include: path.resolve('src/js'),
       exclude: /node_modules/,
     },
     {
@@ -86,9 +80,27 @@ config.module = {
       use: ExtractTextPlugin.extract({
         fallback: 'style-loader',
         use: [
-          'css-loader?sourceMap',
-          'postcss-loader?sourceMap',
-          'stylus-loader?sourceMap&paths=src/css',
+          {
+            loader: 'css-loader',
+            options: {
+              url: false,
+              sourceMap: true,
+              minimize: true,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+          {
+            loader: 'stylus-loader',
+            options: {
+              sourceMap: true,
+              paths: 'src/css',
+            },
+          },
         ],
       }),
       include: [
@@ -125,7 +137,6 @@ config.plugins = [
   new HtmlWebpackPlugin({
     template: 'html/index.pug',
     filename: 'index.html',
-    chunks: ['app', 'vendor', 'manifest'],
     data: {
       DEV_MODE,
     },
@@ -133,22 +144,33 @@ config.plugins = [
   new ScriptExtHtmlWebpackPlugin({
     defaultAttribute: 'defer',
   }),
-  new webpack.optimize.CommonsChunkPlugin({
-    names: ['vendor', 'manifest'],
-    minChunks: Infinity,
-  }),
-  new webpack.DefinePlugin({
+  /* new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify(DEV_MODE ? 'development' : 'production'),
     },
-  }),
+  }), */
   ...DEV_MODE ? [
     new FriendlyErrorsPlugin(),
-    new webpack.NamedModulesPlugin(),
   ] : [
     new CleanWebpackPlugin('./dist'),
   ],
 ];
+
+config.optimization = {
+  runtimeChunk: {
+    name: 'vendor',
+  },
+  splitChunks: {
+    cacheGroups: {
+      vendors: {
+        name: 'vendors',
+        chunks: 'all',
+        test: /[\\/]node_modules[\\/]/,
+        priority: -10,
+      },
+    },
+  },
+};
 
 config.devServer = {
   historyApiFallback: true,

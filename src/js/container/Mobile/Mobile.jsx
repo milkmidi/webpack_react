@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { sendMessage } from '../../action';
-
+import './Mobile.styl';
 
 class Mobile extends Component {
   static propTypes ={
@@ -13,7 +13,7 @@ class Mobile extends Component {
   render() {
     const { messages, onSendMessage } = this.props;
     return (
-      <div>
+      <div className="mobile-container">
         <button onClick={() => onSendMessage(Math.random().toString())}>sendMessage</button>
         {
           messages.map((msg, index) => <p key={index.toString()}>{msg}</p>)

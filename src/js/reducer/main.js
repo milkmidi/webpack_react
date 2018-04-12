@@ -5,7 +5,6 @@ const DEFAULT_STATE = {
 
 const main = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
-
     case 'sendMessage': {
       const messages = state.messages.concat();
       messages.push(action.data);
