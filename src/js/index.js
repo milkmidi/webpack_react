@@ -1,4 +1,5 @@
 import React from 'react';
+import 'rxjs';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { render } from 'react-dom';

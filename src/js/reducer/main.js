@@ -1,14 +1,20 @@
+import { START_LOADING, END_LOADING } from '../action';
 
 const DEFAULT_STATE = {
-  messages: ['3q9527'],
+  loading: false,
 };
 
 const main = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
-    case 'sendMessage': {
-      const messages = state.messages.concat();
-      messages.push(action.data);
-      return { messages };
+    case START_LOADING: {
+      return {
+        loading: true,
+      };
+    }
+    case END_LOADING: {
+      return {
+        loading: false,
+      };
     }
     default:
       return state;

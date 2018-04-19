@@ -157,9 +157,9 @@ config.plugins = [
 ];
 
 config.optimization = {
-  runtimeChunk: {
+  /* runtimeChunk: {
     name: 'vendor',
-  },
+  }, */
   splitChunks: {
     cacheGroups: {
       vendors: {
