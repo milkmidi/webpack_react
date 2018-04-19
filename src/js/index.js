@@ -1,3 +1,5 @@
+import 'regenerator-runtime/runtime';
+import 'es6-promise/auto';
 import React from 'react';
 import 'rxjs';
 import { Provider } from 'react-redux';
@@ -5,9 +7,9 @@ import { Router } from 'react-router-dom';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 
+import '~/css/app.styl';
 import App from '@/container/App';
 import configureStore from '@/configureStore';
-import '~/css/app.styl';
 import createHistory from 'history/createBrowserHistory';
 
 const history = createHistory();

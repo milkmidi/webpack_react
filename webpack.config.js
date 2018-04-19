@@ -1,23 +1,17 @@
 /* eslint no-console:0 */
 const path = require('path');
 const chalk = require('chalk');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 const DEV_MODE = process.env.NODE_ENV === 'development';
 
 console.log(chalk.bgGreen.black('process.env.NODE_ENV', process.env.NODE_ENV));
-const toFilename = (name, ext = 'js') => {
-  let units = `${name}.${ext}`;
-  if (!DEV_MODE) {
-    units += (ext === 'css' ? '?[chunkhash]' : '?[chunkhash]');
-  }
-  return units;
-};
+
+const toFilename = name => (DEV_MODE ? `${name}.js` : `${name}-[chunkhash].js`);
 
 const config = {
   mode: process.env.NODE_ENV,
@@ -27,8 +21,8 @@ const config = {
   },
   output: {
     filename: toFilename('asset/js/[name]'),
-    chunkFilename: toFilename('asset/js/[name].chunk'),
-    path: path.resolve(__dirname, './dist'),
+    chunkFilename: toFilename('asset/js/[name]-chunk'),
+    path: path.resolve('dist'),
     publicPath: '/',
   },
   devtool: DEV_MODE ? 'inline-source-map' : false,
@@ -39,21 +33,14 @@ const config = {
       path.resolve('node_modules'),
     ],
     alias: {
-      '~': path.resolve('./src'),
-      '@': path.resolve('./src/js'),
-      img: path.resolve('./src/asset/img'),
+      '~': path.resolve('src'),
+      '@': path.resolve('src/js'),
+      img: path.resolve('src/asset/img'),
     },
     extensions: ['.js', '.jsx'],
   },
 };
 
-if (DEV_MODE) {
-  Object.keys(config.entry).forEach((key) => {
-    if (key !== 'vendor') {
-      config.entry[key].unshift('react-hot-loader/patch');
-    }
-  });
-}
 
 config.module = {
   rules: [
@@ -76,33 +63,28 @@ config.module = {
       exclude: /node_modules/,
     },
     {
-      test: /\.styl$/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: [
-          {
-            loader: 'css-loader',
-            options: {
-              url: false,
-              sourceMap: true,
-              minimize: true,
-            },
+      test: /\.(styl|stylus)$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            sourceMap: true,
+            minimize: true,
           },
-          {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true,
-            },
+        },
+        {
+          loader: 'postcss-loader',
+          options: { sourceMap: true },
+        },
+        {
+          loader: 'stylus-loader',
+          options: {
+            paths: 'src/css/',
+            sourceMap: true,
           },
-          {
-            loader: 'stylus-loader',
-            options: {
-              sourceMap: true,
-              paths: 'src/css',
-            },
-          },
-        ],
-      }),
+        },
+      ],
       include: [
         path.resolve('src/css'),
         path.resolve('src/js'),
@@ -130,10 +112,6 @@ config.performance = {
 };
 
 config.plugins = [
-  new ExtractTextPlugin({
-    filename: toFilename('asset/css/[name]', 'css'),
-    disable: DEV_MODE,
-  }),
   new HtmlWebpackPlugin({
     template: 'html/index.pug',
     filename: 'index.html',
@@ -156,14 +134,35 @@ config.plugins = [
   ],
 ];
 
+if (DEV_MODE) {
+  Object.keys(config.entry).forEach((key) => {
+    if (key !== 'vendor') {
+      config.entry[key].unshift('react-hot-loader/patch');
+    }
+  });
+} else {
+  const stylusLoader = config.module.rules.find(({ test }) => test.test('.stylus'));
+  stylusLoader.use[0] = {
+    loader: MiniCssExtractPlugin.loader,
+    options: {
+      publicPath: '../../',
+    },
+  };
+
+  config.plugins.push(new MiniCssExtractPlugin({
+    filename: 'asset/css/[name]-[contenthash].css',
+    chunkFilename: 'asset/css/[name]-chunk-[contenthash].css',
+  }));
+}
+
+
 config.optimization = {
-  /* runtimeChunk: {
-    name: 'vendor',
-  }, */
   splitChunks: {
+    chunks: 'all',
+    automaticNameDelimiter: '-',
     cacheGroups: {
       vendors: {
-        name: 'vendors',
+        // name: 'vendors',
         chunks: 'all',
         test: /[\\/]node_modules[\\/]/,
         priority: -10,

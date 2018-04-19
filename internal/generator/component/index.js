@@ -33,20 +33,14 @@ module.exports = {
     const actions = [
       {
         type: 'add',
-        path: '../src/js/component/{{properCase name}}/{{properCase name}}.js',
-        templateFile: `generator/component/${componentTemplate}`,
+        path: '../../src/js/component/{{properCase name}}/{{properCase name}}.js',
+        templateFile: `component/${componentTemplate}`,
         abortOnFail: true,
       },
       {
         type: 'add',
-        path: '../src/js/component/{{properCase name}}/{{properCase name}}.styl',
-        templateFile: 'generator/component/style.styl.hbs',
-        abortOnFail: true,
-      },
-      {
-        type: 'add',
-        path: '../src/js/component/{{properCase name}}/package.json',
-        templateFile: 'generator/component/package.hbs',
+        path: '../../src/js/component/{{properCase name}}/{{properCase name}}.styl',
+        templateFile: 'component/style.styl.hbs',
         abortOnFail: true,
       },
     ];

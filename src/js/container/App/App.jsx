@@ -1,17 +1,30 @@
 import React from 'react';
-import {
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import Loadable from 'react-loadable';
+
+import Navigation from '@/component/Navigation';
 
 
-import Mobile from '../Mobile';
+const LoadingComponent = () => <div>Loading...</div>;
 
+const GetUserMedia = Loadable({
+  loader: () => import(/* webpackChunkName: "GetUserMedia" */'@/component/GetUserMedia'),
+  loading: LoadingComponent,
+});
+
+const Mobile = Loadable({
+  loader: () => import(/* webpackChunkName: "Mobile" */'@/container/Mobile'),
+  loading: LoadingComponent,
+});
 
 const App = () => (
-  <Switch>
-    <Route path="/" name="mobile" component={Mobile}/>
-  </Switch>
+  <main>
+    <Switch>
+      <Route exact path="/" component={Mobile}/>
+      <Route exact path="/getUserMedia" component={GetUserMedia}/>
+    </Switch>
+    <Navigation />
+  </main>
 );
 
 export default App;
