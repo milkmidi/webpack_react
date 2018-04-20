@@ -1,4 +1,5 @@
 - var devMode = self.htmlWebpackPlugin.options.data.DEV_MODE
+- var weinreScript = self.htmlWebpackPlugin.options.data.weinreScript
 - var title = "React Template";
 - var description = "React Template"
 - var keywords = "";
@@ -21,6 +22,7 @@ html
     link(rel="stylesheet" href="https://milkmidi.github.io/core-ui-material-design/css/core-ui-custom.min.css")
     link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css")
     link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+    if weinreScript
+      script(src=weinreScript)
   body
     #app
-    //- script(src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Object.values,Object.assign|always" defer)

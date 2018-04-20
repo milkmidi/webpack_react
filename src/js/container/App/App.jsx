@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import Navigation from '@/component/Navigation';
@@ -17,14 +17,22 @@ const Mobile = Loadable({
   loading: LoadingComponent,
 });
 
+const InlineVideo = Loadable({
+  loader: () => import(/* webpackChunkName: "InlineVideo" */'@/component/InlineVideo'),
+  loading: LoadingComponent,
+});
+
 const App = () => (
-  <main>
-    <Switch>
-      <Route exact path="/" component={Mobile}/>
-      <Route exact path="/getUserMedia" component={GetUserMedia}/>
-    </Switch>
-    <Navigation />
-  </main>
+  <Router>
+    <main>
+      <Switch>
+        <Route exact path="/" component={Mobile}/>
+        <Route exact path="/getUserMedia" component={GetUserMedia}/>
+        <Route exact path="/InlineVideo" component={InlineVideo}/>
+      </Switch>
+      <Navigation />
+    </main>
+  </Router>
 );
 
 export default App;

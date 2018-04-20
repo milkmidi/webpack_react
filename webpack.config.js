@@ -6,12 +6,21 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const WeinreWebpackPlugin = require('weinre-webpack-plugin');
 
 const DEV_MODE = process.env.NODE_ENV === 'development';
 
 console.log(chalk.bgGreen.black('process.env.NODE_ENV', process.env.NODE_ENV));
 
 const toFilename = name => (DEV_MODE ? `${name}.js` : `${name}-[chunkhash].js`);
+const getLocalhostIPAddress = () => {
+  const ifs = require('os').networkInterfaces();
+  // eslint-disable-next-line
+  const host = `${Object.keys(ifs).map(x => ifs[x].filter(x => x.family === 'IPv4' && !x.internal)[0]).filter(x => x)[0].address}`;
+  return host || 'localhost';
+};
+
 
 const config = {
   mode: process.env.NODE_ENV,
@@ -23,7 +32,7 @@ const config = {
     filename: toFilename('asset/js/[name]'),
     chunkFilename: toFilename('asset/js/[name]-chunk'),
     path: path.resolve('dist'),
-    publicPath: '/',
+    publicPath: '',
   },
   devtool: DEV_MODE ? 'inline-source-map' : false,
   resolve: {
@@ -117,8 +126,12 @@ config.plugins = [
     filename: 'index.html',
     data: {
       DEV_MODE,
+      weinreScript: DEV_MODE ? `http://${getLocalhostIPAddress()}:8000/target/target-script-min.js#anonymous` : false,
     },
   }),
+  new CopyWebpackPlugin([
+    { from: 'asset/copy', to: './', ignore: ['.*'] },
+  ]),
   new ScriptExtHtmlWebpackPlugin({
     defaultAttribute: 'defer',
   }),
@@ -129,6 +142,13 @@ config.plugins = [
   }), */
   ...DEV_MODE ? [
     new FriendlyErrorsPlugin(),
+    new WeinreWebpackPlugin({
+      httpPort: 8000,
+      boundHost: '0.0.0.0',
+      verbose: false,
+      debug: false,
+      readTimeout: 5,
+    }),
   ] : [
     new CleanWebpackPlugin('./dist'),
   ],
