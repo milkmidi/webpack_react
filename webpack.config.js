@@ -10,7 +10,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WeinreWebpackPlugin = require('weinre-webpack-plugin');
 
 const DEV_MODE = process.env.NODE_ENV === 'development';
-
+const WEINRE_MODE = DEV_MODE && process.env.WEINRE;
 console.log(chalk.bgGreen.black('process.env.NODE_ENV', process.env.NODE_ENV));
 
 const toFilename = name => (DEV_MODE ? `${name}.js` : `${name}-[chunkhash].js`);
@@ -126,7 +126,7 @@ config.plugins = [
     filename: 'index.html',
     data: {
       DEV_MODE,
-      weinreScript: DEV_MODE ? `http://${getLocalhostIPAddress()}:8000/target/target-script-min.js#anonymous` : false,
+      weinreScript: WEINRE_MODE ? `http://${getLocalhostIPAddress()}:8000/target/target-script-min.js#anonymous` : false,
     },
   }),
   new CopyWebpackPlugin([
@@ -142,38 +142,10 @@ config.plugins = [
   }), */
   ...DEV_MODE ? [
     new FriendlyErrorsPlugin(),
-    new WeinreWebpackPlugin({
-      httpPort: 8000,
-      boundHost: '0.0.0.0',
-      verbose: false,
-      debug: false,
-      readTimeout: 5,
-    }),
   ] : [
     new CleanWebpackPlugin('./dist'),
   ],
 ];
-
-if (DEV_MODE) {
-  Object.keys(config.entry).forEach((key) => {
-    if (key !== 'vendor') {
-      config.entry[key].unshift('react-hot-loader/patch');
-    }
-  });
-} else {
-  const stylusLoader = config.module.rules.find(({ test }) => test.test('.stylus'));
-  stylusLoader.use[0] = {
-    loader: MiniCssExtractPlugin.loader,
-    options: {
-      publicPath: '../../',
-    },
-  };
-
-  config.plugins.push(new MiniCssExtractPlugin({
-    filename: 'asset/css/[name]-[contenthash].css',
-    chunkFilename: 'asset/css/[name]-chunk-[contenthash].css',
-  }));
-}
 
 
 config.optimization = {
@@ -211,5 +183,37 @@ config.devServer = {
     },
   }, */
 };
+
+
+if (DEV_MODE) {
+  Object.keys(config.entry).forEach((key) => {
+    if (key !== 'vendor') {
+      config.entry[key].unshift('react-hot-loader/patch');
+    }
+  });
+} else {
+  const stylusLoader = config.module.rules.find(({ test }) => test.test('.stylus'));
+  stylusLoader.use[0] = {
+    loader: MiniCssExtractPlugin.loader,
+    options: {
+      publicPath: '../../',
+    },
+  };
+
+  config.plugins.push(new MiniCssExtractPlugin({
+    filename: 'asset/css/[name]-[contenthash].css',
+    chunkFilename: 'asset/css/[name]-chunk-[contenthash].css',
+  }));
+}
+
+if (WEINRE_MODE) {
+  config.plugins.push(new WeinreWebpackPlugin({
+    httpPort: 8000,
+    boundHost: '0.0.0.0',
+    verbose: false,
+    debug: false,
+    readTimeout: 5,
+  }));
+}
 
 module.exports = config;

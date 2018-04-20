@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import './InlineVideo.styl';
 
 export default class InlineVideo extends Component {
@@ -10,7 +9,6 @@ export default class InlineVideo extends Component {
           <source src="video/home.mp4"/>
         </video>
       </section>
-
     );
   }
 }

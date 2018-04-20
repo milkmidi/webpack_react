@@ -4,6 +4,7 @@
   "description": "react-template",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server --progress --hot",
+    "weinre": "set WEINRE=true && npm run start",
     "https": "cross-env NODE_ENV=development webpack-dev-server --progress --hot --https",
     "build": "cross-env NODE_ENV=production webpack --progress",
     "plop": "plop --plopfile ./internal/generator/index.js",
@@ -95,6 +96,7 @@
     "weinre-webpack-plugin": "^2.0.3"
   },
   "dependencies": {
+    "react-router-prop-types": "^1.0.3",
     "redux-observable": "^0.18.0",
     "rxjs": "^5.5.10",
     "webpack": "^4.6.0",

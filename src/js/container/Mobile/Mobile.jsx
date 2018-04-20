@@ -17,14 +17,14 @@ class Mobile extends Component {
       messages, onSendMessage, onStartLoading, loading,
     } = this.props;
     return (
-      <div className="mobile-container">
+      <section className="mobile-container">
         <button onClick={() => onSendMessage(Math.random().toString())}>sendMessage</button>
         <button onClick={() => onStartLoading()}>onStartLoading</button>
         <p>{loading.toString()}</p>
         {
           messages.map((msg, index) => <p key={index.toString()}>{msg}</p>)
         }
-      </div>
+      </section>
 
     );
   }
