@@ -1,4 +1,5 @@
 /* eslint no-return-assign:0 */
+/* global CCapture */
 import React, { PureComponent } from 'react';
 // import PropTypes from 'prop-types';
 import $script from 'scriptjs';

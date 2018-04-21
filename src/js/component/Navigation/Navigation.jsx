@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { withRouter } from 'react-router';
+
 import { NavLink } from 'react-router-dom';
+import ReactRouterPropTypes from 'react-router-prop-types';
 import './Navigation.styl';
 
 class Navigation extends Component {
   static propTypes = {
     showNavigation: PropTypes.bool,
     onToggleNavigation: PropTypes.func,
+    onHideNavigation: PropTypes.func.isRequired,
+    // React-Router props
+    history: ReactRouterPropTypes.history.isRequired,
+    location: ReactRouterPropTypes.location.isRequired,
+    match: ReactRouterPropTypes.match.isRequired,
+  }
+  componentWillReceiveProps({ location }) {
+    if (this.props.location.pathname !== location.pathname) {
+      this.props.onHideNavigation();
+    }
   }
   render() {
     const { showNavigation, onToggleNavigation } = this.props;
@@ -24,4 +35,4 @@ class Navigation extends Component {
     );
   }
 }
-export default withRouter(Navigation);
+export default Navigation;

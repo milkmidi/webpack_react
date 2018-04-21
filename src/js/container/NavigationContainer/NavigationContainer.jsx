@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Navigation from '@/component/Navigation';
-
-import { toggleNavigation } from '../../action';
+import { withRouter } from 'react-router';
+import { toggleNavigation, hideNavigation } from '@/action';
 
 const mapStateToProps = state => ({
   showNavigation: state.main.showNavigation,
@@ -11,6 +11,9 @@ const mapDispatchToProps = dispatch => ({
   onToggleNavigation() {
     dispatch(toggleNavigation());
   },
+  onHideNavigation() {
+    dispatch(hideNavigation());
+  },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Navigation);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navigation));

@@ -6,11 +6,6 @@ const DEFAULT_STATE = {
   name: '',
 };
 
-/* const DEFAULT_STATE = {
-  messages: ['3q9527'],
-  ping: false,
-}; */
-
 const user = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case SEND_MESSAGE: {

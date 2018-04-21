@@ -1,7 +1,7 @@
 /* eslint max-len: 0 */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect, bindActionCreators } from 'react-redux';
+import { connect } from 'react-redux';
 import { startLoading, sendMessage } from '../../action';
 import './Mobile.styl';
 
@@ -36,7 +36,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  // onSendMessage: bindActionCreators(action.sendMessage, dispatch),
   onSendMessage(msg:string) {
     dispatch(sendMessage(msg));
   },
