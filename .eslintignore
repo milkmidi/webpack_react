@@ -3,3 +3,4 @@ build/
 node_mdules/
 flow-typed/
 !.eslintrc.js
+!internal/**/*.js

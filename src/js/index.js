@@ -30,6 +30,7 @@ const renderApp = (Component) => {
 };
 renderApp(App);
 
+
 if (process.env.NODE_ENV === 'development') {
   if (module.hot) {
     module.hot.accept('./container/App', () => {

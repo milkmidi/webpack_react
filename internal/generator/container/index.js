@@ -1,19 +1,18 @@
 const { componentExists } = require('../util');
 
-
 module.exports = {
-  description: 'Add an unconnected component',
+  description: 'Add a container component',
   prompts: [{
     type: 'list',
     name: 'type',
-    message: 'Select the type of component',
+    message: 'Select the base component type:',
     default: 'Stateless Function',
     choices: () => ['Stateless Function', 'React.Component'],
   }, {
     type: 'input',
     name: 'name',
     message: 'What should it be called?',
-    default: 'Button',
+    default: 'Form',
     validate: (value) => {
       if ((/.+/).test(value)) {
         return componentExists(value) ? 'A component or container with this name already exists' : true;
@@ -22,33 +21,35 @@ module.exports = {
     },
   }],
   actions: (data) => {
-    let componentTemplate;
+    // Generate index.js and index.test.js
+    var componentTemplate; // eslint-disable-line no-var
+
     switch (data.type) {
       case 'Stateless Function': {
         componentTemplate = 'stateless.js.hbs';
         break;
       }
-      case 'React.Component':
-      default:
+      default: {
         componentTemplate = 'es6.js.hbs';
+      }
     }
 
     const actions = [
       {
         type: 'add',
-        path: '../../src/js/component/{{properCase name}}/index.js',
+        path: '../../src/js/container/{{properCase name}}/index.js',
         templateFile: 'component/index.js.hbs',
         abortOnFail: true,
       },
       {
         type: 'add',
-        path: '../../src/js/component/{{properCase name}}/{{properCase name}}.js',
-        templateFile: `component/${componentTemplate}`,
+        path: '../../src/js/container/{{properCase name}}/{{properCase name}}.js',
+        templateFile: componentTemplate,
         abortOnFail: true,
       },
       {
         type: 'add',
-        path: '../../src/js/component/{{properCase name}}/{{properCase name}}.styl',
+        path: '../../src/js/container/{{properCase name}}/{{properCase name}}.styl',
         templateFile: 'component/style.styl.hbs',
         abortOnFail: true,
       },

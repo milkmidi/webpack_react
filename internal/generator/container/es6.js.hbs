@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import './{{ properCase name }}.styl';
 
@@ -18,8 +19,19 @@ class {{ properCase this.name }} extends Component {
 }
 
 {{ properCase name }}.propTypes = {
+  dispatch: PropTypes.func.isRequired,
 };
 {{ properCase name }}.defaultProps = {
 };
 
-export default {{ properCase name }};
+const mapStateToProps = state => ({
+  
+});
+
+const mapDispatchToProps = (dispatch)=> {
+  return {
+    dispatch,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)({{ properCase name }});
