@@ -29,6 +29,7 @@ class Navigation extends Component {
           <NavLink exact className="btn btn-primary" to="/">Home</NavLink>
           <NavLink exact className="btn btn-primary" to="/getUserMedia">getUserMedia</NavLink>
           <NavLink exact className="btn btn-primary" to="/inlineVideo">inlineVideo</NavLink>
+          <NavLink exact className="btn btn-primary" to="/device">device</NavLink>
           <a className="close-btn" onClick={onToggleNavigation}>{showNavigation ? 'X' : '三'}</a>
         </div>
       </nav>

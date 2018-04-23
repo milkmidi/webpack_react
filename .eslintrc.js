@@ -19,6 +19,7 @@ module.exports = {
     io: false,
     TweenMax: false,
     PIXI: false,
+    device: false,
   },
   plugins: [
     'import',

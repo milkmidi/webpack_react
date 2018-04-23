@@ -1,22 +1,7 @@
-import React from 'react';
-import Loadable from 'react-loadable';
-
-const LoadingComponent = () => <div>Loading...</div>;
-
-const GetUserMedia = Loadable({
-  loader: () => import(/* webpackChunkName: "GetUserMedia" */'@/component/GetUserMedia'),
-  loading: LoadingComponent,
-});
-
-const Mobile = Loadable({
-  loader: () => import(/* webpackChunkName: "Mobile" */'@/container/Mobile'),
-  loading: LoadingComponent,
-});
-
-const InlineVideo = Loadable({
-  loader: () => import(/* webpackChunkName: "InlineVideo" */'@/component/InlineVideo'),
-  loading: LoadingComponent,
-});
+import Device from '@/component/Device';
+import GetUserMedia from '@/component/GetUserMedia';
+import InlineVideo from '@/component/InlineVideo';
+import Mobile from '@/container/Mobile';
 
 const routers = [
 
@@ -35,6 +20,12 @@ const routers = [
     component: InlineVideo,
     exact: true,
   },
+  {
+    path: '/Device',
+    component: Device,
+    exact: true,
+  },
+
 ];
 
 export default routers;
