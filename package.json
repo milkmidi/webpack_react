@@ -95,6 +95,7 @@
     "weinre-webpack-plugin": "^2.0.3"
   },
   "dependencies": {
+    "iphone-inline-video": "^2.2.2",
     "rxjs": "^5.5.10"
   }
 }

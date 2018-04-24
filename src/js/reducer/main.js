@@ -7,7 +7,7 @@ import {
 
 const DEFAULT_STATE = {
   loading: false,
-  showNavigation: true,
+  showNavigation: false,
 };
 
 const main = (state = DEFAULT_STATE, action) => {
