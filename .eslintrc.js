@@ -20,6 +20,7 @@ module.exports = {
     TweenMax: false,
     PIXI: false,
     device: false,
+    createjs: false,
   },
   plugins: [
     'import',
