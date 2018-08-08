@@ -4,11 +4,9 @@ import PropTypes from 'prop-types';
 import './Loading.styl';
 
 const Loading = ({ loading }) => {
-  console.log(loading);
   if (!loading) {
     return null;
   }
-
   return (
     <div className="loading-component">
       <div className="loader-container">

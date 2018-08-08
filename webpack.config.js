@@ -84,7 +84,21 @@ config.module = {
         },
         {
           loader: 'postcss-loader',
-          options: { sourceMap: true },
+          options: {
+            sourceMap: true,
+            plugins: () => [
+              require('postcss-flexbugs-fixes'),
+              require('autoprefixer')({
+                browsers: [
+                  'last 5 versions',
+                  'iOS >=10',
+                  'not ie <= 11',
+                  '>3%',
+                ],
+                flexbox: 'no-2009',
+              }),
+            ],
+          },
         },
         {
           loader: 'stylus-loader',

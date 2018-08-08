@@ -5,8 +5,9 @@ import classnames from 'classnames';
 import { NavLink } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 import './Navigation.styl';
+import NaviButton from './NaviButton';
 
-class Navigation extends Component {
+export default class Navigation extends Component {
   static propTypes = {
     showNavigation: PropTypes.bool,
     onToggleNavigation: PropTypes.func,
@@ -24,14 +25,15 @@ class Navigation extends Component {
   render() {
     const { showNavigation, onToggleNavigation } = this.props;
     return (
-      <nav className={`nav-container ${classnames({ show: showNavigation })}`}>
-        <div className="content">
-          <NavLink exact className="btn btn-primary" to="/">Home</NavLink>
-          <NavLink exact className="btn btn-primary" to="/device">device</NavLink>
-          <a className="close-btn" onClick={onToggleNavigation}>{showNavigation ? 'X' : '三'}</a>
+      <nav className={`navigation ${classnames({ show: showNavigation })}`}>
+        <div className="navigation__content">
+          <NavLink exact className="btn btn-primary navigation__nav-link" to="/">Home</NavLink>
+          <NavLink exact className="btn btn-primary navigation__nav-link" to="/device">device</NavLink>
+          <div className="navigation__menu-btn">
+            <NaviButton onClick={onToggleNavigation} open={showNavigation}/>
+          </div>
         </div>
       </nav>
     );
   }
 }
-export default Navigation;
