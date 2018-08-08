@@ -3,7 +3,7 @@ import api from '../service/api';
 
 export const startLoadingEpic = action$ =>
   action$.ofType(START_LOADING)
-    .delay(1000)
+    .delay(3000)
     .mapTo({ type: END_LOADING });
 
 export const fetchProducts = action$ =>

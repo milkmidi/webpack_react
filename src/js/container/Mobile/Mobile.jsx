@@ -31,9 +31,9 @@ class Mobile extends Component<void, Props> {
     return (
       <div className="container">
         <section className="mobile-container">
-          <button onClick={() => onSendMessage(Math.random().toString())}>sendMessage</button>
-          <button onClick={() => onStartLoading()}>onStartLoading</button>
-          <button onClick={() => onFetchProduct()}>onFetchProduct</button>
+          <button className="primary-btn btn" onClick={() => onSendMessage(Math.random().toString())}>sendMessage</button>
+          <button className="primary-btn btn" onClick={() => onStartLoading()}>onStartLoading</button>
+          <button className="primary-btn btn" onClick={() => onFetchProduct()}>onFetchProduct</button>
           {
             products.map((o:ProductType) => <div key={o.id}>{o.title}</div>)
           }
