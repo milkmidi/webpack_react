@@ -3,6 +3,7 @@ _doc
 .sass-cache
 doc
 dist
+build
 db
 src/asset/img
 build

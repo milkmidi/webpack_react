@@ -4,9 +4,10 @@ import 'es6-promise/auto';
 import React from 'react';
 import 'rxjs';
 import { Provider } from 'react-redux';
-import { HashRouter as Router } from 'react-router-dom';
-import { render } from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { render, hydrate } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
+
 
 import '~/css/app.styl';
 import App from '@/container/App';
@@ -16,7 +17,9 @@ const store = configureStore();
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
 
 const renderApp = (Component) => {
-  render(
+  const rootElement = document.getElementById('app');
+  const r = rootElement.hasChildNodes() ? hydrate : render;
+  r(
     <AppContainer>
       <Provider store={store}>
         <Router>

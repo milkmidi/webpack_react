@@ -9,7 +9,7 @@ const routers = [
     exact: true,
   },
   {
-    path: '/Device',
+    path: '/device',
     component: Device,
     exact: true,
   },
