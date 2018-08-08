@@ -2,30 +2,47 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { startLoading, sendMessage } from '../../action';
+import { startLoading, sendMessage, getAllProducts } from '../../action';
 import './Mobile.styl';
+import { type ProductType } from '../../service/api';
 
-class Mobile extends Component {
+type Props = {
+  messages: string[],
+  loading: boolean,
+  onSendMessage: Function,
+  onStartLoading: Function,
+  onFetchProduct: Function,
+}
+
+class Mobile extends Component<void, Props> {
   static propTypes ={
     messages: PropTypes.arrayOf(String),
+    products: PropTypes.array,
     loading: PropTypes.bool,
     onSendMessage: PropTypes.func,
     onStartLoading: PropTypes.func,
+    onFetchProduct: PropTypes.func,
   }
   render() {
     const {
-      messages, onSendMessage, onStartLoading, loading,
+      messages, onSendMessage, onStartLoading, loading, onFetchProduct,
+      products,
     } = this.props;
     return (
-      <section className="mobile-container">
-        <button onClick={() => onSendMessage(Math.random().toString())}>sendMessage</button>
-        <button onClick={() => onStartLoading()}>onStartLoading</button>
-        <p>{loading.toString()}</p>
-        {
-          messages.map((msg, index) => <p key={index.toString()}>{msg}</p>)
-        }
-      </section>
-
+      <div className="container">
+        <section className="mobile-container">
+          <button onClick={() => onSendMessage(Math.random().toString())}>sendMessage</button>
+          <button onClick={() => onStartLoading()}>onStartLoading</button>
+          <button onClick={() => onFetchProduct()}>onFetchProduct</button>
+          {
+            products.map((o:ProductType) => <div key={o.id}>{o.title}</div>)
+          }
+          <p>props.loading:{loading.toString()}</p>
+          {
+            messages.map((msg, index) => <p key={index.toString()}>{msg}</p>)
+          }
+        </section>
+      </div>
     );
   }
 }
@@ -33,6 +50,7 @@ class Mobile extends Component {
 const mapStateToProps = state => ({
   messages: state.user.messages,
   loading: state.main.loading,
+  products: state.product,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -40,6 +58,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(sendMessage(msg));
   },
   onStartLoading: () => dispatch(startLoading()),
+  onFetchProduct: () => dispatch(getAllProducts()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Mobile);
