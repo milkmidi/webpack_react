@@ -1,5 +1,5 @@
 import {
-  delay, mapTo, switchMap,
+  delay, mapTo, switchMap, map,
 } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
 import { fromPromise } from 'rxjs/observable/fromPromise';
@@ -17,6 +17,8 @@ export const startLoadingEpic = action$ => action$.pipe(
 
 export const fetchProducts = action$ => action$.pipe(
   ofType(GET_ALL_PRODUCTS),
-  delay(1000),
-  switchMap(async () => fromPromise(api.getProducts())),
+  switchMap(() => fromPromise(api.getProducts())
+    .pipe(
+      map(response => receiveProducts(response)),
+    )),
 );
