@@ -3,4 +3,8 @@ import * as main from './main';
 
 const mainValues = Object.keys(main).map(e => main[e]);
 
-export default combineEpics(...mainValues);
+
+const rootEpic = combineEpics(...mainValues);
+
+export default rootEpic;
+// export default combineEpics(...mainValues);

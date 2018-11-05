@@ -26,7 +26,6 @@ module.exports = {
     'import',
     'react',
     'flowtype',
-    'compat',
   ],
   settings: {
     'import/resolver': {

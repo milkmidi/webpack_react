@@ -26,14 +26,21 @@ const TIMEOUT = 100;
 const MAX_CHECKOUT = 2; // max different items
 
 const api = {
-  getProducts: () => new Observable((observer) => {
+  getProducts() {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(mockProducts);
+      }, 1000);
+    });
+  },
+  /* getProducts: () => new Observable((observer) => {
     const timerId = setTimeout(() => {
       observer.next(mockProducts);
       observer.complete();
     }, TIMEOUT);
     return () => clearTimeout(timerId);
   }),
-
+ */
   buyProducts: cart => new Observable((observer) => {
     const timerId = setTimeout(() => {
       if (Object.keys(cart.quantityById).length <= MAX_CHECKOUT) {

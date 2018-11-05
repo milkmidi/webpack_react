@@ -26,8 +26,7 @@ const renderApp = (Component) => {
           <Component />
         </Router>
       </Provider>
-    </AppContainer>
-    ,
+    </AppContainer>,
     document.getElementById('app'),
   );
 };
@@ -42,4 +41,3 @@ if (process.env.NODE_ENV === 'development') {
     });
   }
 }
-
