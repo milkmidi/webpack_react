@@ -5,8 +5,8 @@ const merge = require('merge-stream');
 
 gulp.task('m', () => {
   const imgSrc = [
-    'src/asset/img_src/**/*.+(jpg|png|gif|svg)',
-    '!src/asset/img_src/_*',
+    'src/assets/img_src/**/*.+(jpg|png|gif|svg)',
+    '!src/assets/img_src/_*',
   ];
   const otherSrc = imgSrc.map(imgPath => (imgPath.indexOf('!') === 0 ? imgPath.substr(1) : `!${imgPath}`));
   const imgDest = 'src/asset/img';
@@ -32,7 +32,7 @@ gulp.task('m', () => {
 
 
 gulp.task('watch', () => {
-  gulp.watch('src/asset/img_src/**/*', ['m']);
+  gulp.watch('src/assets/img_src/**/*', ['m']);
 });
 
 gulp.task('default', ['m', 'watch']);

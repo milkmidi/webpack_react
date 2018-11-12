@@ -1,0 +1,10 @@
+{{#if wantLoadable}}
+import Loadable from 'react-loadable';
+
+export default Loadable({
+  loader: () => import(/* webpackChunkName: "{{ properCase name }}" */'./{{ properCase name }}.jsx'),
+  loading: () => null,
+});
+{{else}}
+export { default } from './{{ properCase name }}.jsx';
+{{/if}}

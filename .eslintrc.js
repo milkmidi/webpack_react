@@ -16,15 +16,13 @@ module.exports = {
     FB: false,
     ga: false,
     pug: false,
-    io: false,
     TweenMax: false,
-    PIXI: false,
+    device: false,
   },
   plugins: [
     'import',
     'react',
     'flowtype',
-    'compat',
   ],
   settings: {
     'import/resolver': {
@@ -34,7 +32,6 @@ module.exports = {
     },
   },
   rules: {
-    'compat/compat': 'error',
     'import/no-unresolved': 0,
     'global-require': 0,
     'class-methods-use-this': 'off',

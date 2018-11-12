@@ -1,0 +1,29 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import './{{ properCase name }}.styl';
+
+const {{ properCase name }} = ({}) => (
+  <div className="{{dashCase name}}-root">
+    <h1>{{ properCase this.name }}</h1>
+  </div>
+);
+
+{{ properCase name }}.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+{{ properCase name }}.defaultProps = {
+};
+
+const mapStateToProps = state => ({
+  
+});
+
+const mapDispatchToProps = (dispatch)=> {
+  return {
+    dispatch,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)({{ properCase name }});

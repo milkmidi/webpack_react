@@ -1,0 +1,38 @@
+$animateTime = 0.33s
+$animateEase = cubic-bezier(0.54, -0.81, 0.57, 0.57)
+.navi__button
+  width 40px
+  height 30px
+  display flex
+  margin 5px 0
+  flex-direction column
+  justify-content space-between
+  cursor pointer
+  transition all $animateTime ease-out
+  &:hover
+    .line-menu
+      background-color #d3d3d3  
+  .line-menu
+    background-color #fff
+    border-radius 5px
+    width 100%
+    height 4px
+    transition all $animateTime ease-out
+    &.half
+      width 50%
+    &.start
+      transition transform $animateTime $animateEase
+      transform-origin right
+    &.end 
+      align-self flex-end
+      transition transform $animateTime $animateEase
+      transform-origin left
+  &.open
+    margin 0
+    height 40px
+    transform rotate(-45deg)
+    .line-menu
+      &.start
+        transform rotate(-90deg) translateX(3px)
+      &.end
+        transform rotate(-90deg) translateX(-3px)

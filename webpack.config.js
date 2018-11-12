@@ -1,66 +1,63 @@
 /* eslint no-console:0 */
 const path = require('path');
 const chalk = require('chalk');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const WeinreWebpackPlugin = require('weinre-webpack-plugin');
 
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 const DEV_MODE = process.env.NODE_ENV === 'development';
-
+const WEINRE_MODE = DEV_MODE && process.env.WEINRE;
 console.log(chalk.bgGreen.black('process.env.NODE_ENV', process.env.NODE_ENV));
-const toFilename = (name, ext = 'js') => {
-  let units = `${name}.${ext}`;
-  if (!DEV_MODE) {
-    units += (ext === 'css' ? '?[chunkhash]' : '?[chunkhash]');
-  }
-  return units;
+
+const toFilename = name => (DEV_MODE ? `${name}.js` : `${name}-[chunkhash].js`);
+const toCSSFilename = name => (DEV_MODE ? `${name}.css` : `${name}-[contenthash].js`);
+const getLocalhostIPAddress = () => {
+  const ifs = require('os').networkInterfaces();
+  // eslint-disable-next-line
+  const host = `${Object.keys(ifs).map(x => ifs[x].filter(x => x.family === 'IPv4' && !x.internal)[0]).filter(x => x)[0].address}`;
+  return host || 'localhost';
 };
+
 
 const config = {
   mode: process.env.NODE_ENV,
   context: path.resolve('src'),
   entry: {
-    app: ['./js/index.js'],
+    app: ['./index.js'],
   },
   output: {
-    filename: toFilename('asset/js/[name]'),
-    chunkFilename: toFilename('asset/js/[name].chunk'),
-    path: path.resolve(__dirname, './dist'),
-    publicPath: '/',
+    filename: toFilename('assets/js/[name]'),
+    chunkFilename: toFilename('assets/js/[name]-chunk'),
+    path: path.resolve('dist'),
+    publicPath: '',
   },
   devtool: DEV_MODE ? 'inline-source-map' : false,
   resolve: {
     modules: [
       path.resolve('src'),
-      path.resolve('src/asset'),
+      path.resolve('src/assets'),
       path.resolve('node_modules'),
     ],
     alias: {
-      '~': path.resolve('./src'),
-      '@': path.resolve('./src/js'),
-      img: path.resolve('./src/asset/img'),
+      '~': path.resolve('src'),
+      '@': path.resolve('src'),
+      img: path.resolve('src/assets/img'),
     },
     extensions: ['.js', '.jsx'],
   },
 };
 
-if (DEV_MODE) {
-  Object.keys(config.entry).forEach((key) => {
-    if (key !== 'vendor') {
-      config.entry[key].unshift('react-hot-loader/patch');
-    }
-  });
-}
 
 config.module = {
   rules: [
     {
       test: /\.js(x?)$/,
       use: ['babel-loader'],
-      include: path.resolve('src/js'),
+      include: path.resolve('src'),
       exclude: /node_modules/,
     },
     {
@@ -72,40 +69,54 @@ config.module = {
           name: '[path][name].[ext]?[hash:8]',
         },
       },
-      include: path.resolve('src/asset/img'),
+      include: path.resolve('src/assets/img'),
       exclude: /node_modules/,
     },
     {
-      test: /\.styl$/,
-      use: ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: [
-          {
-            loader: 'css-loader',
-            options: {
-              url: false,
-              sourceMap: true,
-              minimize: true,
-            },
+      test: /\.(styl|stylus)$/,
+      use: [
+        'css-hot-loader',
+        {
+          loader: MiniCssExtractPlugin.loader,
+          options: {
+            publicPath: '../../',
           },
-          {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true,
-            },
+        },
+        {
+          loader: 'css-loader',
+          options: {
+            sourceMap: true,
+            minimize: true,
           },
-          {
-            loader: 'stylus-loader',
-            options: {
-              sourceMap: true,
-              paths: 'src/css',
-            },
+        },
+        {
+          loader: 'postcss-loader',
+          options: {
+            sourceMap: true,
+            plugins: () => [
+              require('postcss-flexbugs-fixes'),
+              require('autoprefixer')({
+                browsers: [
+                  'last 5 versions',
+                  'iOS >=10',
+                  'not ie <= 11',
+                  '>3%',
+                ],
+                flexbox: 'no-2009',
+              }),
+            ],
           },
-        ],
-      }),
+        },
+        {
+          loader: 'stylus-loader',
+          options: {
+            paths: 'src/css/',
+            sourceMap: true,
+          },
+        },
+      ],
       include: [
-        path.resolve('src/css'),
-        path.resolve('src/js'),
+        path.resolve('src'),
       ],
       exclude: /node_modules/,
     },
@@ -130,19 +141,23 @@ config.performance = {
 };
 
 config.plugins = [
-  new ExtractTextPlugin({
-    filename: toFilename('asset/css/[name]', 'css'),
-    disable: DEV_MODE,
-  }),
   new HtmlWebpackPlugin({
     template: 'html/index.pug',
     filename: 'index.html',
     data: {
       DEV_MODE,
+      weinreScript: WEINRE_MODE ? `http://${getLocalhostIPAddress()}:8000/target/target-script-min.js#anonymous` : false,
     },
   }),
+  new CopyWebpackPlugin([
+    { from: 'assets/copy', to: './', ignore: ['.*'] },
+  ]),
   new ScriptExtHtmlWebpackPlugin({
     defaultAttribute: 'defer',
+  }),
+  new MiniCssExtractPlugin({
+    filename: toCSSFilename('assets/css/[name]'),
+    chunkFilename: toCSSFilename('assets/css/[name]-chunk'),
   }),
   /* new webpack.DefinePlugin({
     'process.env': {
@@ -156,14 +171,14 @@ config.plugins = [
   ],
 ];
 
+
 config.optimization = {
-  /* runtimeChunk: {
-    name: 'vendor',
-  }, */
   splitChunks: {
+    chunks: 'all',
+    automaticNameDelimiter: '-',
     cacheGroups: {
       vendors: {
-        name: 'vendors',
+        // name: 'vendors',
         chunks: 'all',
         test: /[\\/]node_modules[\\/]/,
         priority: -10,
@@ -192,5 +207,21 @@ config.devServer = {
     },
   }, */
 };
+
+
+if (DEV_MODE) {
+  Object.keys(config.entry).forEach((key) => {
+    config.entry[key].unshift('react-hot-loader/patch');
+  });
+}
+if (WEINRE_MODE) {
+  config.plugins.push(new WeinreWebpackPlugin({
+    httpPort: 8000,
+    boundHost: '0.0.0.0',
+    verbose: false,
+    debug: false,
+    readTimeout: 5,
+  }));
+}
 
 module.exports = config;
