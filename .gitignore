@@ -1,11 +1,12 @@
 node_modules
 _doc
 .sass-cache
+.cache
 doc
 dist
 build
 db
-src/asset/img
+src/assets/img
 build
 *.zip
 *.psd
