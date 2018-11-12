@@ -4,9 +4,9 @@
     "jsx": "react",
     "baseUrl": "./",
     "paths": {
-      "~/*": ["*"],
-      "@/*": ["src/js/*"],
-      "img": ["src/asset/img"]
+      "~/*": ["src/*"],
+      "@/*": ["src/*"],
+      "img": ["src/assets/img"]
     }
   }
 }

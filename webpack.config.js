@@ -14,6 +14,7 @@ const WEINRE_MODE = DEV_MODE && process.env.WEINRE;
 console.log(chalk.bgGreen.black('process.env.NODE_ENV', process.env.NODE_ENV));
 
 const toFilename = name => (DEV_MODE ? `${name}.js` : `${name}-[chunkhash].js`);
+const toCSSFilename = name => (DEV_MODE ? `${name}.css` : `${name}-[contenthash].js`);
 const getLocalhostIPAddress = () => {
   const ifs = require('os').networkInterfaces();
   // eslint-disable-next-line
@@ -26,11 +27,11 @@ const config = {
   mode: process.env.NODE_ENV,
   context: path.resolve('src'),
   entry: {
-    app: ['./js/index.js'],
+    app: ['./index.js'],
   },
   output: {
-    filename: toFilename('asset/js/[name]'),
-    chunkFilename: toFilename('asset/js/[name]-chunk'),
+    filename: toFilename('assets/js/[name]'),
+    chunkFilename: toFilename('assets/js/[name]-chunk'),
     path: path.resolve('dist'),
     publicPath: '',
   },
@@ -38,13 +39,13 @@ const config = {
   resolve: {
     modules: [
       path.resolve('src'),
-      path.resolve('src/asset'),
+      path.resolve('src/assets'),
       path.resolve('node_modules'),
     ],
     alias: {
       '~': path.resolve('src'),
-      '@': path.resolve('src/js'),
-      img: path.resolve('src/asset/img'),
+      '@': path.resolve('src'),
+      img: path.resolve('src/assets/img'),
     },
     extensions: ['.js', '.jsx'],
   },
@@ -56,7 +57,7 @@ config.module = {
     {
       test: /\.js(x?)$/,
       use: ['babel-loader'],
-      include: path.resolve('src/js'),
+      include: path.resolve('src'),
       exclude: /node_modules/,
     },
     {
@@ -68,13 +69,19 @@ config.module = {
           name: '[path][name].[ext]?[hash:8]',
         },
       },
-      include: path.resolve('src/asset/img'),
+      include: path.resolve('src/assets/img'),
       exclude: /node_modules/,
     },
     {
       test: /\.(styl|stylus)$/,
       use: [
-        'style-loader',
+        'css-hot-loader',
+        {
+          loader: MiniCssExtractPlugin.loader,
+          options: {
+            publicPath: '../../',
+          },
+        },
         {
           loader: 'css-loader',
           options: {
@@ -109,8 +116,7 @@ config.module = {
         },
       ],
       include: [
-        path.resolve('src/css'),
-        path.resolve('src/js'),
+        path.resolve('src'),
       ],
       exclude: /node_modules/,
     },
@@ -144,10 +150,14 @@ config.plugins = [
     },
   }),
   new CopyWebpackPlugin([
-    { from: 'asset/copy', to: './', ignore: ['.*'] },
+    { from: 'assets/copy', to: './', ignore: ['.*'] },
   ]),
   new ScriptExtHtmlWebpackPlugin({
     defaultAttribute: 'defer',
+  }),
+  new MiniCssExtractPlugin({
+    filename: toCSSFilename('assets/css/[name]'),
+    chunkFilename: toCSSFilename('assets/css/[name]-chunk'),
   }),
   /* new webpack.DefinePlugin({
     'process.env': {
@@ -201,25 +211,9 @@ config.devServer = {
 
 if (DEV_MODE) {
   Object.keys(config.entry).forEach((key) => {
-    if (key !== 'vendor') {
-      config.entry[key].unshift('react-hot-loader/patch');
-    }
+    config.entry[key].unshift('react-hot-loader/patch');
   });
-} else {
-  const stylusLoader = config.module.rules.find(({ test }) => test.test('.stylus'));
-  stylusLoader.use[0] = {
-    loader: MiniCssExtractPlugin.loader,
-    options: {
-      publicPath: '../../',
-    },
-  };
-
-  config.plugins.push(new MiniCssExtractPlugin({
-    filename: 'asset/css/[name]-[contenthash].css',
-    chunkFilename: 'asset/css/[name]-chunk-[contenthash].css',
-  }));
 }
-
 if (WEINRE_MODE) {
   config.plugins.push(new WeinreWebpackPlugin({
     httpPort: 8000,
